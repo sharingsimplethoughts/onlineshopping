@@ -1,0 +1,12 @@
+{% autoescape off %} 
+<h5>Hi {{ user}},</h5><br>
+
+<p>Your Prduct {{product}} has been shipped by our courier service</p><br>
+
+<p>Tracking Id: <b>{{track_id}}</b> </p><br>
+
+<p>You can track your pruduct by clicking on below link</p><br>
+
+<a href="{{track_url}}">Track</a>
+
+{% endautoescape %}

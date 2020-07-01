@@ -1,0 +1,651 @@
+{% load staticfiles %}
+
+{% include 'admin-interface/header.html' %}
+
+<style>
+  .card, .payment-card {
+    border: 1px solid #dcdcdc;
+  }
+  .popover-content td{
+    padding: 3px 12px !important;
+    font-size: 12px !important;
+  }
+</style>
+
+  <div class="editAccountPage ExplorerListPage">
+    <div class="layout-content">
+      <div class="layout-content-body">
+        <div class="title-bar">
+          <h1 class="title-bar-title">
+            <span class="d-ib">Order Details</span>
+          </h1>
+        </div>
+
+
+
+        <div class="row gutter-xs">
+          <div class="col-xs-12">
+            <div class="panel m-b-lg">  
+              <div class="tab-content">
+
+
+              {% if form.errors %}
+
+
+                      {% for field in form %}
+                        {% for error in field.errors %}
+                            <p id="error_message" style="color:red;text-align: center; margin:0px">
+                                <span>{{ error|escape }}</span>
+                            </p>
+                              {% endfor %}
+                          {% endfor %}
+
+                          {% for error in form.non_field_errors %}
+                             <p id="error_message" style="color:red;text-align: center; margin:0px">
+                                  <span>{{ error|escape }}</span>
+                              </p>
+                          {% endfor %}
+
+                          {% endif %}
+
+                          {% if messages %}
+                          {% for message in messages %}
+                        <p id="error_message" style="color:green;text-align: center;">{{message}}</p>
+                     {% endfor %}
+                  {% endif %}
+
+                <div class="tab-pane fade active in" id="profile-15">
+                  <div class="col-md-8" style="margin-top: 6px">
+                    <h5>Order ID : <strong style="color: #e74c3c">#{{order.order.id}}</strong></h5>
+                    <div class="card" style="display: inline-block">
+                      <div class="col-md-3" style="padding-left: 0px;">
+
+                        {% if order.cart.product.main_img %}
+
+                          <img src="{{order.cart.product.main_img.url}}" style="width: 100%;">
+                        {% else %}
+                        <img src="https://www.kodefork.com/static/users/images/user.png" style="width: 100%;">
+
+                        {% endif %}
+                      </div>
+                      <div class="col-md-7">
+                        <a style="color: #2c3e50" href="/admin/users/view_product/{{order.cart.product.id}}"><h4>{{order.cart.product.name | title}}</h4></a>
+                        <p>{{order.cart.product.description}}</p>
+                        <h6>Sold By : {{order.cart.product.user.first_name | capfirst}} {{order.cart.product.user.last_name }}</h6>
+                        <ul class="list-inline">
+                          <li>Size : <strong>{{order.cart.selected_size}}</strong></li>
+                          <li>Qty : <strong>{{order.cart.selected_quantity}}</strong></li>
+                           <li>Colour : <strong>{{order.cart.selected_colour.colour.name |capfirst}}</strong></li>
+                        </ul>
+                      </div>
+                      <div class="col-md-2">
+                        <h6 class="text-danger"><del>Rs. {{order.cart.selected_colour.actual_price}}</del></h6>
+                        <h4>Rs. {{order.cart.selected_colour.special_price}}</h4>
+                      </div>
+
+                    {% if order_status_detail %}
+
+                     <div class="col-md-12" style="border-top: 1px solid #dcdcdc;">
+                        <h4 style="float: left;"><span class="text-success">{{order_status_detail.get_order_status_display |title }}</span><br><small>{{order_status_detail.get_order_status_display |title }} on {{order_status_detail.created | date:" d F Y, g:i a" }}</small></h4>
+
+                      {% if order.track_id %} 
+                        <h6  style="float: right; color:#eb6e34; line-height: 38px;">Track Id : <strong class="text-muted">{{order.track_id}}</strong>
+
+                        
+                        <!-- <a onclick="ShowTrackDetail()" style="margin-left:6px;color: #349feb;text-decoration: underline;" href="#">View or Edit</a> -->
+
+
+                      </h6>
+                        
+                        
+                      {% endif  %} 
+                      </div>
+                      
+                    {% else %}
+
+                   
+
+                      <div class="col-md-12" style="border-top: 1px solid #dcdcdc;">
+                        <h4 style="float: left;"><span class="text-success">{{order.get_order_status_display |title}}</span><br><small>{{order.get_order_status_display |title}} on {{order.created | date:" d F Y, g:i a" }}</small></h4>
+                    
+                    {% if order.track_id %} 
+                        <h6  style="float: right; line-height: 38px;">Track Id : <strong>{{order.track_id}}</strong></h6>
+                        <br>
+                        
+                    {% endif  %}
+
+                      </div>
+
+                    {% endif %}
+
+
+
+
+                    </div>
+
+                  </div>
+                  <div class="col-md-4">
+                    <div style="text-align: right;display: inline-flex;">
+                      <div class="btn-group dropdown btn-block" style="margin-right: 10px;">
+                        <button class="btn btn-info btn-block dropdown-toggle" data-toggle="dropdown" type="button">
+                          {{order.get_order_status_display|title}}
+                          <span class="caret"></span>
+                        </button>
+
+                        <ul class="dropdown-menu dropdown-menu-right" id="statusvalue">
+
+                        {% if order.order_status in '1'%}
+                          <li data-value="2">
+                            <a href="#">
+                              <div class="media">
+                                <div class="media-body">
+                                  <span class="d-b">Packed</span>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+                      {% endif %}
+
+                      {% if order.order_status in '1,2'%}
+                          <li data-value="3">
+                            <a href="#">
+                              <div class="media">
+                                <div class="media-body">
+                                  <span class="d-b">Shipped</span>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+                      {% endif %}
+
+
+                      {% if order.order_status in '1,2,3'%}
+
+                           <li data-value="4">
+                            <a href="#">
+                              <div class="media">
+                                <div class="media-body">
+                                  <span class="d-b">Delivered</span>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+
+                      {% endif %}  
+
+
+
+
+                 {% if order.order_status in '7'%}
+
+                           <li data-value="8">
+                            <a href="#">
+                              <div class="media">
+                                <div class="media-body">
+                                  <span class="d-b">Return accepted</span>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+
+                {% endif %}  
+               
+
+                {% if order.order_status in '7,8'%}
+
+                           <li data-value="9">
+                            <a href="#">
+                              <div class="media">
+                                <div class="media-body">
+                                  <span class="d-b">Return completed and refuned </span>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+
+                {% endif %}  
+
+
+              {% if order.order_status == '10' %}
+
+                           <li data-value="11">
+                            <a href="#">
+                              <div class="media">
+                                <div class="media-body">
+                                  <span class="d-b">Pickup and exchanged </span>
+                                </div>
+                              </div>
+                            </a>
+                          </li>
+
+                {% endif %}  
+
+
+
+                        </ul>
+                      </div>
+
+                    {% if order.order_status in '1,2,3' %}
+
+                      <button class="btn btn-danger" type="button" data-toggle="modal"  id ="{{ user.id }}" data-target="#cancelOrder"  >
+                        Cancel order
+                      </button>
+                    {% endif %}
+
+
+                    </div>
+                    <div class="payment-card" style="margin-top: 2px !important;">
+                      <h6>Placed On :<strong>{{order.created | date:" d F Y, g:i a" }}</strong></h6>
+
+                     <!--  {% if order.order.item == '1' %} -->
+
+                      <!-- <h6>Price Details : Rs {{order.order.grand_total}}<strong>&nbsp; -->
+                      <!-- {% else %} -->
+                       <h6>Price Details : Rs {{order.cart.selected_colour.special_price}}<strong>&nbsp;
+
+                      <!-- {% endif %} -->
+
+                        <a data-placement="bottom" data-toggle="popover" data-title="Price Details" data-container="body" type="button" data-html="true" href="#" id="login">
+                          <span class="icon  icon-lg icon-info-circle text-warning"></span>
+                        </a></strong></h6>
+                      <h5><u>Delivery Address :</u>
+                        <span style="background-color: #00800087; border-radius: 5px;font-size: 12px ;padding: 4px; ">{{order.order.address.get_addr_type_display | capfirst}}</span>
+                   </h5>
+                      <h6>Flat/Building: <span style="font-weight:400;">{{order.order.address.flat_building | capfirst}}</span></h6>
+                      <h6>Area/Street: <span style="font-weight:400;">{{order.order.address.area_street | capfirst}}</span></h6>
+
+                      <h6>Landmark: <span style="font-weight:400;">{{order.order.address.lankmark | capfirst}}</span></h6>
+                      
+                      <h6>City: <span style="font-weight:400;">{{order.order.address.city | capfirst}}</span></h6>
+                      <h6>State: <span style="font-weight:400;">{{order.order.address.state | capfirst}}</span></h6>
+                      <h6>Zipcode: <span style="font-weight:400;">{{order.order.address.pincode | capfirst}}</span></h6>
+                      <h6>Mobile No. :<span style="font-weight:400;color:green"><strong>{{order.order.address.country_code}}-{{order.order.address.phonenum}} </strong></h6>
+                     
+                {% if order.order.item == '1' %}
+                      <table class="table hide" id="pop-table">
+                        <tbody>
+                        {% if order.order.is_exchange%}
+                          <tr  style="color:red">
+                            <td>Exchange Product</td>
+                            <td><a href="/admin/users/order_detail/{{order.order.exchange_previous_order.id}}">View Previous</a></td>
+                          </tr>
+                        {% endif %}
+
+                        {% if order.order.is_refund_required%}
+                          <tr style="color:red">
+                            <td>Refund Required</td>
+                            <td><a href="/admin/users/order_detail/{{order.order.exchange_previous_order.id}}">View Previous</a></td>
+                          </tr>
+                        {% endif %}
+                          <tr>
+                            <td>Product Price</td>
+                            <td>Rs {{order.order.price}}</td>
+                          </tr>
+                          
+                          
+
+                          <tr>
+                            <td>Coupon Off</td>
+                            <td>Rs {{order.order.coupon_off}}</td>
+                          </tr>
+
+                          <tr>
+                            <td>Coupon Code</td>
+                            <td style="font-weight: 400">{{order.order.coupon_code | default:"Not applied"}}</td>
+                          </tr>
+
+                          <tr>
+                            <td>Estimated Tax</td>
+                            <td>Rs 0</td>
+                          </tr>
+
+                          <tr>
+                            <td>Delivery Charges</td>
+                            <td>Rs {{order.order.shipping_charges | default:'0'}}
+                            </td>
+                          </tr>
+
+                          <tr>
+                            <td colspan="2"><hr style="margin-top: 0px; margin-bottom: 0px;"></td>
+                          </tr>
+                          <tr>
+                            <td>Total</td>
+                            <td>
+                              <span class="payment-total-amount" style="font-size: 14px;">Rs {{order.order.grand_total}}</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+
+                  {% else %}
+
+                    <table class="table hide" id="pop-table">
+                        <tbody>
+                          <tr>
+                            <td>Product Price</td>
+                            <td>Rs {{order.cart.selected_colour.actual_price}}</td>
+                          </tr>
+                          <tr>
+                            <td>Offer Price</td>
+                            <td>Rs {{order.cart.selected_colour.special_price}}</td>
+                          </tr>
+                          <tr>
+                            <td>Estimated Tax</td>
+                            <td>Rs 0</td>
+                          </tr>
+                          <tr>
+                            <td>Delivery Charges</td>
+                            <td>Rs 0
+                            </td>
+                          </tr>
+                          
+                          
+                          <tr>
+                            <td colspan="2"><hr style="margin-top: 0px; margin-bottom: 0px;"></td>
+                          </tr>
+                          <tr>
+                            <td>Total</td>
+                            <td>
+                              <span class="payment-total-amount" style="font-size: 14px;">{{order.cart.selected_colour.special_price}}</span>
+                            </td>
+                          </tr>
+                        </tbody>
+                      </table>
+                  {% endif %}
+
+                    </div>
+                  </div>
+                  
+                  <div class="col-md-12 text-center">
+                    <a href="/admin/users/order_list/" class="btn btn-primary">Back</a>
+                  </div>
+                </div>
+
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+
+{% include 'admin-interface/footer.html' %}
+
+
+<div id="cancelOrder" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="md-form-group custom-controls-stacked">
+          <label style="font-size: 15px">Select any of the reasons below :</label>
+          <label class="custom-control custom-control-primary custom-radio">
+            <input class="custom-control-input" type="radio" value="User changed their mind" name="tagging" required>
+            <span class="custom-control-indicator"></span>
+            <small class="custom-control-label">User changed their mind.</small>
+          </label>
+          <label class="custom-control custom-control-primary custom-radio">
+            <input class="custom-control-input" type="radio" value="User doesn't want to buy product right now" name="tagging" required>
+            <span class="custom-control-indicator"></span>
+            <small class="custom-control-label">User doesn't want to buy product right now.</small>
+          </label>
+           <label class="custom-control custom-control-primary custom-radio">
+            <input class="custom-control-input" type="radio" value="Cheaper alternative available for lesser price" name="tagging" required>
+            <span class="custom-control-indicator"></span>
+            <small class="custom-control-label">Cheaper alternative available for lesser price.</small>
+          </label>
+           <label class="custom-control custom-control-primary custom-radio">
+            <input class="custom-control-input" type="radio" value="Bad review from friends/relatives after ordering the product" name="tagging" required>
+            <span class="custom-control-indicator"></span>
+            <small class="custom-control-label">Bad review from friends/relatives after ordering the product.</small>
+          </label>
+           <label class="custom-control custom-control-primary custom-radio">
+            <input class="custom-control-input" type="radio" value="Delay in shipping and you get frustrated as it will be of no use if you ordered for some occasion" name="tagging" required>
+            <span class="custom-control-indicator"></span>
+            <small class="custom-control-label">Delay in shipping and you get frustrated as it will be of no use if you ordered for some occasion.</small>
+          </label>
+
+          <label class="custom-control custom-control-primary custom-radio">
+            <input class="custom-control-input" type="radio" value="If you are not going to be available in town due to some urgent travel" name="tagging" required>
+            <span class="custom-control-indicator"></span>
+            <small class="custom-control-label">If you are not going to be available in town due to some urgent travel.</small>
+          </label>
+          <label class="custom-control custom-control-primary custom-radio">
+            <input class="custom-control-input" type="radio" value="Seller not able to entertain some request" name="tagging" required>
+            <span class="custom-control-indicator"></span>
+            <small class="custom-control-label">Seller not able to entertain some request.</small>
+          </label>
+          <label class="custom-control custom-control-primary custom-radio">
+            <input class="custom-control-input" id="other" type="radio" value="Other" name="tagging" required >
+            <span class="custom-control-indicator"></span>
+            <small class="custom-control-label">Other</small>
+          </label>
+        </div>
+
+        <div class="form-group" id="other-show" style="display: none">
+          <textarea class="form-control" rows="4" placeholder="Write the reason here..."></textarea>
+        </div>
+
+        <div class="m-t-lg text-center">
+          <button class="btn btn-danger" id="submit" disabled data-dismiss="modal" type="button">Submit</button>
+          <button class="btn btn-default" data-dismiss="modal" type="button">Discard</button>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+    <div id="ChangeStatus" tabindex="-1" role="dialog" class="modal fade">
+     <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">×</span>
+              <span class="sr-only">Close</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <span class="text-danger icon icon-times-circle icon-5x"></span>
+              <h3 class="text-danger">Delete</h3>
+              <h4 id="alert_text"></h4>
+              <div class="m-t-lg">
+                <button class="btn btn-danger" id="status_id" data-dismiss="modal" type="button" status_id = "" onclick="ChangeStatusFunction()" />Continue</button>
+                <button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>      
+    </div>
+
+
+<div id="ShippedChangeStatus" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-body">
+        <div class="md-form-group custom-controls-stacked text-center" style="margin: 0; padding: 15px 0;">
+          <label style="font-size: 15px">Please Fill Tracking ID and Track Url of Product :</label>
+        </div>
+
+    <form id="shipped_status_form" method="POST" action="/admin/users/add_tracking_id/{{order.id}}">{% csrf_token %}
+                                   
+       <div class="form-group col-md-12">
+          <label class="control-label col-md-3">Tracking Id</label>
+          <div class="col-md-9">
+            <input class="form-control" type="text" id="track_id"
+            name="id" required />
+          </div>
+        </div>
+
+        <div class="form-group col-md-12">
+          <label class="control-label col-md-3">Tracking Url</label>
+          <div class="col-md-9">
+            <input class="form-control" type="text" id="track_url"
+            name="url" required />
+          </div>
+        </div>
+
+        <div class="m-t-lg text-center">
+          <button class="btn btn-danger"  type="submit">Submit</button>
+          <button class="btn btn-default" data-dismiss="modal" type="button">Discard</button>
+        </div>
+
+     </form>   
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+
+
+
+<script type="text/javascript">
+
+  $("[data-toggle=popover]").popover({
+    html: true, 
+    content: function() {
+      return $('#pop-table').html();
+    }
+  });
+
+  $(document).ready(function() {
+
+    $('input[type=radio]').change(function() {
+      var value = $(this).val()
+       
+      $('button').prop('disabled', false)
+
+      if(value=='Other'){
+        $('#other-show').css('display', "")
+      }else{
+        $('#other-show').css('display', "none")
+      }
+
+
+    });
+
+    $('#submit').click(function(){
+      var selected = $('input[name=tagging]:checked').val()
+      if (selected=='Other'){
+        var selected = ($("textarea").val())
+      }
+
+
+// api call to cancle a order
+
+    $.ajax(
+    {
+        type:"POST",
+        url: "/api/v1/order/cancel_order",
+        headers: { "X-CSRFToken":'{{csrf_token}}' },
+        data:{
+          'order_detail_id':'{{order.id}}',
+          'cancel_description':selected
+        },
+      
+      success: function( data ) 
+        {   
+
+            alert(data.message)
+            window.location.reload();
+         
+        },
+
+      statusCode: {
+        404: function(response) {
+            console.log('ajax.statusCode: 404');
+            alert('404')
+        },
+        500: function(response) {
+            alert('500')
+        },
+        400: function(response) {
+            alert('400')
+        },
+    }
+       
+     })
+
+
+
+
+
+
+    })
+});
+
+
+$(".dropdown-menu li").click(function(e){
+  
+  var status_id = $(this).attr('data-value')
+  var status_text = $(this).text()
+  var current_status = "{{order.get_order_status_display| title}}"
+  if (status_id =='3'){
+
+
+    $('#ShippedChangeStatus').modal('show');
+
+
+  }else{
+    $('#alert_text').text('Are you sure, you want to change status from '+current_status +' to '+ status_text + '?')
+
+        $('#status_id').attr('status_id', status_id)
+       $('#ChangeStatus').modal('show');
+       
+      }
+
+    });
+
+
+
+
+    setTimeout(function(){
+     $( "#error_message" ).text('')
+
+    }, 5000);
+
+
+
+function ChangeStatusFunction(){
+    var status_id  = $('#status_id').attr("status_id");
+
+        $.ajax(
+          {
+            type:"POST",
+            url: "/api/v1/order/change_order_status",
+            headers: {"X-CSRFToken":'{{csrf_token}}'},
+            data: {
+              'status_id': status_id,
+              'order_detail_id':"{{order.id}}"
+          },
+          
+        success: function( data ) 
+          {   
+
+              alert(data.message)
+              window.location.reload();
+           
+          },
+
+        statusCode: {
+          404: function(response) {
+              console.log('ajax.statusCode: 404');
+              alert('404')
+          },
+          500: function(response) {
+              alert('500')
+          },
+          400: function(response) {
+              alert('400')
+              },
+          }
+             
+           });
+      };
+
+</script>

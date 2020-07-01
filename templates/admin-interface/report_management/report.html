@@ -1,0 +1,310 @@
+{% load staticfiles %}
+
+{% include 'admin-interface/header.html' %} 
+
+
+<style>
+  .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    padding: 5px;
+  }
+  tbody.pro-list tr td .widget {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  tbody.pro-list tr td .card-body .btn-primary.btn-sm {
+    padding: 0;
+  }
+  tbody.pro-list tr td .widget .btn {
+    display: block;
+    float: left;
+    height: 20px;
+    line-height: 20px;
+    margin: 5px !important;
+    padding: 0;
+    width: 20px;
+  }
+  .title-bar{
+    display: flow-root;
+  }
+  .title-bar h1.title-bar-title{
+    float: left;
+  }
+  .title-bar a.btn{
+    float: right;
+  }
+  .tab-content{
+    padding: 0px;
+  }
+  .btn-label{
+    left: -14px;
+  }
+  .dataTables_wrapper.form-inline.dt-bootstrap.no-footer{
+    background: none;
+    padding: 15px;
+  }
+  .d-none{
+    display: none;
+  }
+  
+
+  #demo-datatables-5_length{
+    display: none;
+  }
+  .dafault21{
+    width: 33%;
+    height: 20px !important;
+    margin-right: 13px;
+    display: inline-block;
+  }
+</style>
+<div class="orderPage ExplorerListPage">
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Report Generation</span>
+        </h1>
+      </div>
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+
+          <div class="panel m-b-lg">
+            <div class="tab-content">
+              <div class="tab-pane fade active in" id="apparel-tab">
+
+                <div class="card">
+                  <div class="card-body">
+
+                    <div class="row" style="margin: 0;">
+                      <div class="col-md-12" style="background: #e4e4e4; margin-bottom: 20px; text-align: center;">
+                        <div class="col-md-3 col-md-offset-3">
+                          <h2 class="text-success"> $ {{total_profit}}</h2>
+                          <h5>Amount Received (Profit)</h5>
+                        </div>
+
+
+
+                        <div class="col-md-3">
+                          {% if request.COOKIES.role == '2' %}
+                          <h2 class="text-success"> 10 %</h2>
+                            {% else %}
+                          <h2 class="text-success"> 90 %</h2>
+                            {% endif %}
+                          <h5>Commission %</h5>
+                        </div>
+
+
+                      </div>
+                    </div>
+
+                     <div class="row" style="position: relative; margin-bottom: -12px; margin-left: 0;">
+
+                      <div class="col-md-8 col-sm-8 col-xs-12" style="position: absolute; top:-0.5%;  z-index: 999;">
+
+                        <form id="filter_date" style="width: 50%; float: left;">
+                          <div class="dafault21">
+                            <div class="form-group">
+                              <div class="input-group">
+                                <input autocomplete="off" type="text" class="form-control datepicker" value="{{startdate | default_if_none:""}}" id="startdate" style="padding: 0 10px 0 25px; border-radius: 0;" name="startdate" placeholder="From">
+                                <span class="icon icon-calendar input-icon" style="width: 25px;"></span>
+                                <div class="input-group-append">
+                                  <div class="input-group-text ml-2">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="dafault21 tb-to">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" autocomplete="off" class="form-control datepicker" value="{{enddate | default_if_none:""}}" id="enddate" style="padding: 0 10px 0 25px; border-radius: 0;" name="enddate" placeholder="To">
+                                    <span class="icon icon-calendar input-icon" style="width: 25px;"></span>
+                                    <div class="input-group-append">
+                                        <div class="input-group-text ml-2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+
+                          <button style="width:40px;height: 34px ;margin-top:0px" class="btn btn-default btn-sm btn-labeled" id="filter-payment" type="submit" data-toggle="modal" disabled="disabled">
+                            <span class="add-btn">
+                            <i class="fa fa-search"></i>
+                            </span>
+                          </button>
+                            
+
+                        </form>
+                            {% if request.COOKIES.role == '2' %}
+                                <form id="filter_form" method="POST">{% csrf_token %}
+                                   <div class="row">
+                                    
+                                      <div class="col-md-3 col-sm-6 col-xs-12" style="float: right;">
+                                        <select onchange="this.form.submit()" name="sort_id" id ="sort_payment" class="form-control" style="margin-top: 0px;">
+                                          <option value=1>All</option>
+                                          <option value=4>Stylist</option>
+                                          <option value=3>Designer</option>
+                                          <option value =5>Manufacturer</option>
+                                          
+                                        </select>
+                                   </div>
+
+
+                                 </div>  
+                                </form>
+                                {% endif %}
+                              </div>
+
+                    </div>
+
+              
+
+
+                  <table id="demo-datatables-5" class="table table-striped table-bordered table-nowrap dataTable checkbox-table" cellspacing="0" width="100%">
+                      <thead>
+
+
+                       
+                        <tr>
+                          <th class="clicksr">S.No</th>
+                          <th>Transac Id</th>
+                          <th>Order Id</th>
+                          <th>User Name</th>
+                          <th>Role</th>
+                          <th>Product Details</th>
+                          <th>Product Status</th>
+                         
+                          <th>Amount</th>
+                          <th>% Received</th>     
+                        </tr>
+                      </thead>
+                      <tbody class="pro-list">
+
+                {% for order in orders %} 
+                        <tr>
+                          <td>{{forloop.counter}}</td>
+                          <td>#{{order.payment.payment_id}}</td>
+<!--                           <td>{{order.id}}</td>
+ -->                           <td ><a style="color:#eb4f34;text-decoration: underline;" href="/admin/users/order_detail/{{order.id}}">#{{order.order.id}}</a></td>
+
+                          <td>{{order.cart.product.user.first_name}} {{order.cart.product.user.last_name}}</td>
+
+                       {% if order.cart.product.user_role == '3' %}
+                        <td>Designer</td>
+
+                        {% elif order.cart.product.user_role == '2' %}
+                        <td>Super-admin</td>
+
+                       {% elif order.cart.product.user_role == '4' %}
+
+                        <td>Stylist</td>
+
+                       {% elif order.cart.product.user_role == '5' %} 
+                        <td>manufacturer</td>
+
+                        {% else %}
+
+                         <td></td>
+
+                         {% endif %}
+
+                          <td style="color: #34a8eb"><a href="/admin/users/view_product/{{order.cart.product.id}}">{{order.cart.product.name}}</a></td>
+                          <td style="color: green">{{order.get_order_status_display}}</td>
+                         
+                          <td>$ {{order.cart.selected_colour.special_price}}</td>
+                          <td>
+                            {% if request.COOKIES.role == '2' %}
+                            <span >10%</span>
+                            {% else %}
+                            <span >90%</span>
+                            {% endif %}
+
+                            <span > ($ {{order.profit}})</span>
+                          </td>
+
+                        </tr>
+
+                {% endfor %}
+
+                      </tbody>
+                    </table>
+
+
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+{% include 'admin-interface/footer.html' %}
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+    $("#startdate").datepicker({
+      opens: 'bottom',
+      autoclose: true
+    }).on('changeDate', function(selected){
+      var startDate = new Date(selected.date.valueOf());
+      $('#enddate').datepicker('setStartDate', startDate);
+    });  
+
+    $("#enddate").datepicker({
+      opens: 'bottom',
+      autoclose: true
+    }).on('changeDate', function(selected){
+        var startDate = new Date(selected.date.valueOf());
+        $('#startdate').datepicker('setEndDate', startDate);
+    });
+
+  });
+
+  $(".clicksr").click();
+
+
+
+
+
+$('#sort_payment').val("{{sort_id}}");
+
+ $('#filter-payment').prop('disabled', false);
+
+
+var startDate = "{{startdate}}"
+var endDate = "{{enddate}}"
+console.log(startDate,endDate )
+
+if (startDate =='None' || endDate == 'None'){
+  $('#filter-payment').prop('disabled', true);
+}
+
+$(document).ready(function(){
+
+  $('#filter_date').change(function() {
+
+    if ($('#startdate').val() != '' && $('#enddate').val() != '' ){
+      
+      $('#filter-payment').prop('disabled', false);
+
+            }
+      else{
+
+        $('#filter-payment').prop('disabled', true);
+      }
+
+})
+})
+
+</script>

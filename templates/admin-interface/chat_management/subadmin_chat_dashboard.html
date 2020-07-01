@@ -1,0 +1,95 @@
+
+{% load staticfiles %}
+
+{% include 'admin-interface/header.html' %}
+
+
+<h3> subadmin Chat Dashboard </h3>
+<div id="recent_chats">
+{% for recent_chat in recent_user_list %}
+
+<h4><a href="/admin/users/chat?opp_user={{recent_chat.id}}">chat with user {{recent_chat.name}}</a></h4>
+<h6>{{recent_chat.lastmessage}}</h6>
+{% endfor %}
+</div>
+
+
+{% include 'admin-interface/footer.html' %}
+
+
+
+
+
+<script type="text/javascript">
+
+// Both user data
+
+
+var owner_id = '{{user.id}}'
+var owner_name = '{{user.name}}'
+var owner_profile_image = '{{user.profile_image}}'
+var owner_role = '{{user.role}}'
+
+var opp_user_id = '{{opp_user.id}}'
+var opp_user_name = '{{opp_user.name}}'
+var opp_user_role = '{{opp_user.role}}'
+var opp_user_profile_image = '{{opp_user.profle_image}}'
+
+
+  // Set the configuration for your app
+  // TODO: Replace with your project's config object
+
+  var config = {
+    apiKey: "apiKey",
+    authDomain: "authDomain",
+    databaseURL: "databaseURL",
+  };
+  firebase.initializeApp(config);
+
+
+// refrences
+
+var Message = firebase.database().ref('Messages/PrivateMessages/');
+var User = firebase.database().ref('Users/');
+var RecentMessage = firebase.database().ref('RecentMessage/');
+
+
+var child_id = Math.min(owner_id, opp_user_id)+'_'+Math.max(owner_id, opp_user_id);
+var recent_child = 'user_'+owner_id;
+
+
+
+
+// on add new message in Message child
+
+var initialDataLoaded1 = false;
+
+RecentMessage.child(recent_child).on('value', function(snapshot) {
+    // all records after the last continue to invoke this function
+    
+
+    if (initialDataLoaded1){
+        $('#recent_chats').empty()
+
+        snapshot.forEach(function(childSnapshot) {
+            var childKey = childSnapshot.key;
+            var childData = childSnapshot.val();
+
+            html = '<h4><a href="/admin/users/chat?opp_user='+childData.id +'">chat with user'+childData.name +'</a></h4>'+
+                    '<h6>'+childData.lastmessage+'</h6>'
+            $('#recent_chats').append(html)
+        });
+
+    }
+    console.log(snapshot.val());
+
+
+ window.initialDataLoaded1 = true;
+
+
+});
+</script>
+
+
+
+

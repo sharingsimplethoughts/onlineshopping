@@ -1,0 +1,10 @@
+{% autoescape off %} 
+<h5>Hi {{ user}},</h5><br>
+
+<p>Your Prduct {{product}} status has been changed from {{previousStatus}} to {{newStatus}}</p><br>
+
+<p>You can track your pruduct by clicking on below link</p><br>
+
+<a href="{{track_url}}">Track</a>
+
+{% endautoescape %}

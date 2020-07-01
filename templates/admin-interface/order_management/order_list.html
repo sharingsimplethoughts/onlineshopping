@@ -1,0 +1,350 @@
+
+{% load staticfiles %}
+
+{% include 'admin-interface/header.html' %}
+<style>
+  .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    padding: 5px;
+  }
+  tbody.pro-list tr td .widget {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  tbody.pro-list tr td .card-body .btn-primary.btn-sm {
+    padding: 0;
+  }
+  tbody.pro-list tr td .widget .btn {
+    display: block;
+    float: left;
+    height: 20px;
+    line-height: 20px;
+    margin: 5px !important;
+    padding: 0;
+    width: 20px;
+  }
+  .title-bar{
+    display: flow-root;
+  }
+  .title-bar h1.title-bar-title{
+    float: left;
+  }
+  .title-bar a.btn{
+    float: right;
+  }
+  .tab-content{
+    padding: 0px;
+  }
+  .btn-label{
+    left: -14px;
+  }
+  .dataTables_wrapper.form-inline.dt-bootstrap.no-footer{
+    background: none;
+    padding: 15px;
+  }
+  .d-none{
+    display: none;
+  }
+  
+
+  #demo-datatables-5_length{
+    display: none;
+  }
+  .dafault21{
+    width: 33%;
+    height: 20px !important;
+    margin-right: 13px;
+    display: inline-block;
+  }
+</style>
+
+
+
+
+<div class="orderPage ExplorerListPage">
+
+
+  <div class="layout-content">
+    <div class="layout-content-body">
+
+          
+
+
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Order Request Management</span>
+        </h1>
+      </div>
+
+
+
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+
+          <div class="panel m-b-lg">
+            <div class="tab-content">
+              <div class="tab-pane fade active in" id="apparel-tab">
+
+
+
+                <div class="card" >
+                    <div class="card-header" style="display: none">
+                      <div class="card-actions">
+                          <button type="button" class="card-action card-reload" title="Reload"></button>
+                      </div>
+                    </div>
+                  <div class="card-body">
+                    <div class="row" style="position: relative; margin-bottom: -12px; margin-left: 0;">
+
+                      <div class="col-md-8 col-sm-8 col-xs-12" style="position: absolute; top:-0.5%;  z-index: 999;">
+
+                        <form id="filter_date"  style="width: 50%; float: left;">
+                          <div class="dafault21">
+                            <div class="form-group">
+                              <div class="input-group">
+                                <input autocomplete="off" type="text" class="form-control datepicker" value="{{startdate | default_if_none:""}}" id="startdate" style="padding: 0 10px 0 25px; border-radius: 0;" name="startdate" placeholder="From">
+                                <span class="icon icon-calendar input-icon" style="width: 25px;"></span>
+                                <div class="input-group-append">
+                                  <div class="input-group-text ml-2">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="dafault21 tb-to">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" autocomplete="off" class="form-control datepicker" value="{{enddate | default_if_none:""}}" id="enddate" style="padding: 0 10px 0 25px; border-radius: 0;" name="enddate" placeholder="To">
+                                    <span class="icon icon-calendar input-icon" style="width: 25px;"></span>
+                                    <div class="input-group-append">
+                                        <div class="input-group-text ml-2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+
+                          <button style="width:40px;height: 34px ;margin-top:0px" class="btn btn-default btn-sm btn-labeled" id="filter-order" type="submit" data-toggle="modal" disabled="disabled">
+                            <span class="add-btn">
+                            <i class="fa fa-search"></i>
+                            </span>
+                          </button>
+
+                        </form>
+
+                               <form id="filter_form" method="POST">{% csrf_token %}
+                                   <div class="row">
+                                    
+                                      <div class="col-md-3 col-sm-6 col-xs-12" style="float: right;">
+                                        <select onchange="this.form.submit()" name="status_id" id ="sort_orders" class="form-control" style="margin-top: 0px;">
+                                          <option value=0>All</option>
+                                          <option value=1>Ordered</option>
+                                          <option value=2>Packed Orders</option>
+                                          <option value =3>Shipped Orders</option>
+                                          <option value=4>Delivered Orders</option>
+                                          <option value=5>Cancelled Orders</option>
+                                         <option value=7>Returned Orders</option>
+                                         
+                                         <option value=8>Return accepted</option>
+                                         <option value=9>Return completed and refuned</option>
+                                         <option value=10>Exchange Orders</option> 
+                                         <option value=11>Pickup and exchanged</option>
+                                         <!-- <option value=12>Delivered and exchanged</option> -->
+
+                                        </select>
+                                   </div>
+                                 </div>  
+                                </form>
+                              </div>
+
+                    </div>
+                   
+
+                   
+                    <table id="demo-datatables-5" class="table table-striped table-bordered table-nowrap dataTable checkbox-table" cellspacing="0" width="100%">
+                      <thead>
+                        <tr>
+                          
+                          <th class="clicksr">S.No</th>
+                          <th>Order By</th>
+                          <th>Order Id</th>
+                          {% if request.COOKIES.role == '2' %}
+                          <th>Added By</th>
+                          {% endif %}
+                          <th>Product Name</th>
+                          <th>Status</th>
+                          <th>Ordered on</th>
+                          <th>Track Id</th>
+                          <th>Actions</th>
+                        </tr>
+                      </thead>
+                      <tbody class="pro-list">
+
+              {% for order in orders %}
+
+                        <tr>
+                          <td >{{forloop.counter}}</td>
+                          <td>{{order.user.first_name |title}} {{order.user.last_name |title}}</td>
+
+                          <td style="color: #32a5e3">#{{order.order.id}}</td>
+                         {% if request.COOKIES.role == '2' %}
+
+                          {% if order.cart.product.user_role == '2' %}
+                          <td>{{order.cart.product.user.first_name |title}} (Super-user)</td>
+                          
+                          {% elif order.cart.product.user_role == '3' %}
+                          <td>{{order.cart.product.user.first_name |title}} (Designer)</td>
+                         
+                          {% elif order.cart.product.user_role == '4' %}
+                          <td>{{order.cart.product.user.first_name |title}} (Stylist)</td>
+                          
+                          {% elif order.cart.product.user_role == '5' %}
+                          <td>{{order.cart.product.user.first_name |title}} (Manufacturer)</td>
+
+                          {% else %}
+                          <td>{{order.cart.product.user.first_name |title}}</td>
+
+                          {% endif %}
+
+                          {% endif %}
+
+                          <td><a href="/admin/users/view_product/{{order.cart.product.id}}">{{order.cart.product.name |title}}</a></td>
+
+                          {% if order.order_status in '1,2,3' %}
+
+                          <td style="color: #f59b42">{{order.get_order_status_display |title}}</td>
+                          
+                          
+
+                          {% elif order.order_status == '4' %}
+
+                          <td style="color: green">{{order.get_order_status_display |title}}</td>
+                          
+                          
+
+
+                          {% elif order.order_status == '5' %}
+
+                          <td style="color: #f54b42">{{order.get_order_status_display |title}}</td>
+
+                          {% else %}
+
+                          <td>{{order.get_order_status_display |title}}</td>
+                          
+                          {% endif %}
+
+
+
+                          <td>{{order.created | date:" d F Y, g:i a" }}</td>
+                                                  
+                          <td style="font-weight: 450">#DTYT6475GGHGHGH</td>
+                          <td>
+                              <a href="/admin/users/order_detail/{{order.id}}" class="btn btn-default btn-sm btn-labeled" type="button">
+                                <span class="btn-label">
+                                 <i class="icon icon-eye icon-lg icon-fw"></i>
+                                </span>
+                                
+                              </a>
+
+
+
+                            
+                          </td>
+                        </tr>
+
+                    {% endfor %} 
+                        
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'admin-interface/footer.html' %}
+
+
+                     <script>
+jQuery(function(){
+   jQuery('.card-reload').click();
+});
+</script>
+<!-- <script >
+  
+  $('.card-reload').trigger('click');
+</script> -->
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+   
+    $("#startdate").datepicker({
+      opens: 'bottom',
+      autoclose: true,
+      startDate:'01/01/2019'  
+    }).on('changeDate', function(selected){
+      var startDate = new Date(selected.date.valueOf());
+      $('#enddate').datepicker('setStartDate', startDate);
+    });  
+
+    $("#enddate").datepicker({
+      opens: 'bottom',
+      autoclose: true,
+      startDate:'01/01/2019' 
+    }).on('changeDate', function(selected){
+        var startDate = new Date(selected.date.valueOf());
+        $('#startdate').datepicker('setEndDate', startDate);
+    });
+
+  });
+
+  $(".clicksr").click();
+
+</script>
+
+
+  <script>
+
+
+$('#sort_orders').val("{{status_id}}");
+ $('#filter-order').prop('disabled', false);
+
+
+var startDate = "{{startdate}}"
+var endDate = "{{enddate}}"
+if (startDate =='None' || endDate == 'None'){
+  $('#filter-order').prop('disabled', true);
+}
+
+$(document).ready(function(){
+
+$('#filter_date').change(function() {
+
+    if ($('#startdate').val() != '' && $('#enddate').val() != '' ){
+      
+
+      $('#filter-order').prop('disabled', false);
+
+            }
+      else{
+
+        $('#filter-order').prop('disabled', true);
+      }
+
+})
+})
+
+
+// $('#loader').addClass('display','none')
+
+</script>
+

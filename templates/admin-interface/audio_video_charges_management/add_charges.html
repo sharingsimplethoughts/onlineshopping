@@ -1,0 +1,356 @@
+ {% load staticfiles %}
+
+{% include 'admin-interface/header.html' %}
+<style>
+  tbody.pro-list tr td ul{
+    list-style: none;
+    padding-left: 0px;
+  }
+  tbody.pro-list tr td ul li{
+    line-height: 15px;
+  }
+  tbody.pro-list tr td ul li span{
+    float: right;
+  }  
+  .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    padding: 5px;
+  }
+  tbody.pro-list tr td .widget {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  tbody.pro-list tr td .card-body .btn-primary.btn-sm {
+    padding: 0;
+  }
+  tbody.pro-list tr td .widget .btn {
+    display: block;
+    float: left;
+    height: 20px;
+    line-height: 20px;
+    margin: 5px !important;
+    padding: 0;
+    width: 20px;
+  }
+</style>
+
+<div class="AVManagementPage ExplorerListPage">
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Add Audio Video Charges</span>
+        </h1>
+      </div>
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+          <div class="card">
+            <div class="card-body" >
+
+
+                  {% if form.errors %}
+
+
+                      {% for field in form %}
+                        {% for error in field.errors %}
+                            <p id="error_message" style="color:red;text-align: center; margin:0px">
+                                <span>{{ error|escape }}</span>
+                            </p>
+                              {% endfor %}
+                          {% endfor %}
+
+                          {% for error in form.non_field_errors %}
+                             <p id="error_message" style="color:red;text-align: center; margin:0px">
+                                  <span>{{ error|escape }}</span>
+                              </p>
+                          {% endfor %}
+
+                          {% endif %}
+
+                          {% if messages %}
+                          {% for message in messages %}
+                        <p id="error_message" style="color:green;text-align: center;">{{message}}</p>
+                     {% endfor %}
+                  {% endif %}
+
+              <div class="row" style="margin-top:30px ">
+                <div class="col-sm-8 col-sm-offset-2">
+                  <div class="">
+
+                    <form class="form form-horizontal" autocomplete="off"  method="POST" enctype='multipart/form-data' > {% csrf_token%}
+                      <div class="form-group">
+                        <div class="col-md-4">
+                          <label class="control-label">Audio Charges</label>
+                          <input class="form-control" type="number" id ="audio_charge" name="audio_charge"  min="1" required value={{audio_charge}} />
+                        </div>
+                        <div class="col-md-4">
+                          <label class="control-label">Video Charges</label>
+                          <input class="form-control" type="number" id="video_charge" name="video_charge"  min="1" required value="{{video_charge}}"/>
+                        </div>
+                        <div class="col-md-4">
+                          <label class="control-label">Select Stylists/Designers</label>
+                          <button class="btn btn-block btn-default" type="button" data-toggle="modal" data-target="#selectSD">Select</button>
+                        </div>
+
+                    <div id="uservalues">
+                      
+                    </div>
+
+                      </div>
+
+                      <center><button class="btn btn-warning " type="submit">Submit</button></center>
+                    </form>
+                  </div>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+
+          <div class="card">
+            <div class="card-body">
+
+              <div class="row">
+                <div class="col-sm-12">
+                  <table id="demo-datatables-5" class="table table-striped table-bordered table-nowrap dataTable checkbox-table" cellspacing="0" width="100%">
+                    <thead>
+                      <tr>
+                        <th class="clicksr">
+                          S.No</th>
+                        <th>UserId</th>
+                        <th>Name</th>
+                        <th>Email</th>
+                        <th>Mobile No</th>
+                        <th>Category</th>
+                        <th>Audio Charge</th>
+                        <th>Video Charge</th>
+                        <th>Action</th>
+                      </tr>
+                    </thead>
+                    <tbody class="pro-list">
+
+                {% for charge in charges %}
+                      <tr>
+                        <td>{{forloop.counter}}</td>
+                        <td># {{charge.user.user.id}}</td>
+                        <td>{{charge.user.user.first_name}} {{user.user.last_name }}</td>
+                        <td>{{charge.user.user.email}}</td>
+                        <td>{{charge.user.phonenum}}</td>
+                        <td>{{charge.user.role.name}}</td>
+                        <td >{{charge.audio_charge}}</td>
+                        <td>{{charge.video_charge}}</td>
+                        <td>
+                          
+                          <button class="btn btn-info btn-sm" type="button" data-toggle="modal" id="{{charge.id}}" onclick="EditCharges(this.id, '{{charge.audio_charge}}','{{charge.video_charge}}', '{{charge.user.id}}' ,'{{charge.user.user.first_name}}','{{user.user.first_name }}','{{charge.user.user.email}}',
+                           '{{charge.user.phonenum}}','{{charge.user.role.name}}',)">
+                            <i class="icon icon-edit icon-lg icon-fw"></i>
+                          </button>
+                          <button class="btn btn-danger btn-sm" type="button" data-toggle="modal" data-target="#deleteCharge" id="{{charge.id}}" onclick="deleteChargeIdPassFunction(this.id)">
+                            <i class="icon icon-trash icon-lg icon-fw"></i>
+                          </button>
+                        </td>
+                      </tr>
+
+                {% endfor %}
+
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'admin-interface/footer.html' %}
+
+
+   <div id="deleteCharge" tabindex="-1" role="dialog" class="modal fade">
+     <div class="modal-dialog">
+        <div class="modal-content">
+          <div class="modal-header">
+            <button type="button" class="close" data-dismiss="modal">
+              <span aria-hidden="true">×</span>
+              <span class="sr-only">Close</span>
+            </button>
+          </div>
+          <div class="modal-body">
+            <div class="text-center">
+              <span class="text-danger icon icon-times-circle icon-5x"></span>
+              <h3 class="text-danger">Danger</h3>
+              <h4>Are you sure,you want to delete this Charge?</h4>
+              <div class="m-t-lg">
+                <button class="btn btn-danger" id ="audio_video_deleted_id" charge_id="" onclick="deleteChargeFunction()" data-dismiss="modal" type="button">Continue</button>
+                <button class="btn btn-default" data-dismiss="modal" type="button">Cancel</button>
+              </div>
+            </div>
+          </div>
+          <div class="modal-footer"></div>
+        </div>
+      </div>      
+    </div>
+
+
+
+<div id="selectSD" tabindex="-1" role="dialog" class="modal fade">
+  <div class="modal-dialog">
+    <div class="modal-content">
+      <div class="modal-header bg-primary">
+        <button type="button" class="close" data-dismiss="modal">
+          <span aria-hidden="true">×</span>
+          <span class="sr-only">Close</span>
+        </button>
+        <h4 class="modal-title">Select Users</h4>
+      </div>
+      <div class="modal-body" id="demo-datatables-2_wrapper">
+
+      <table id="demo-datatables-2" class="table table-striped table-bordered table-nowrap dataTable" cellspacing="0" width="100%" >
+        <thead>
+          <tr>
+            <th>#</th>
+            <th>Name</th>
+            <th>Email</th>
+            <th>Mobile</th>
+            <th>Category</th>            
+          </tr>
+        </thead>
+
+        <tbody id="appusers">
+
+       {% for user in users %}   
+          <tr>
+            <td>
+              <label class="custom-control custom-control-primary custom-checkbox">
+
+                <input class="custom-control-input userselect" data-id="{{user.id}}" type="checkbox" name="users">
+                
+                <span class="custom-control-indicator"></span>
+                <span class="custom-control-label"></span>
+              </label>
+            </td>
+            <td>{{user.user.first_name}} {{user.user.last_name }}</td>
+            <td>{{user.user.email}}</td>
+            <td>{{user.phonenum}}</td>
+            <td>{{user.role.name}}</td>
+          </tr>
+
+        {% endfor %}
+        </tbody>
+      </table>
+
+        <button class="btn btn-primary" class="close" data-dismiss="modal">
+          Ok</button>
+
+      </div>
+    </div>
+  </div>
+</div>
+
+
+
+
+<script>
+
+  $('#select-all').click(function(){
+    if($(this).is(':checked')){
+      $('#demo-datatables-5 input[type=checkbox]').prop('checked', true);
+    }else{
+      $('#demo-datatables-5 input[type=checkbox]').prop('checked', false);
+    }
+  });
+
+  $(".clicksr").click();
+</script>
+
+
+
+<script >
+   $(document).on('click','.userselect',function(){
+  var user_id = $(this).attr('data-id');
+ 
+    if (this.checked) {
+        $('#uservalues').append(`<input type="hidden" id=`+user_id+` value=`+user_id+` name="selectedUserIds">`);
+
+    }else{
+      console.log(user_id)
+      $("#"+user_id).remove();
+    }
+ })
+
+     function deleteChargeIdPassFunction(clicked_id){   
+    document.getElementById('audio_video_deleted_id').setAttribute('charge_id', clicked_id)
+  };
+
+
+  function deleteChargeFunction(){
+      var id  = document.getElementById('audio_video_deleted_id').getAttribute("charge_id");
+
+    $.ajax(
+      {
+        type:"DELETE",
+        url: "/api/v1/admin/delete_audio_video_charges/"+id,
+        headers: { "X-CSRFToken":'{{csrf_token}}'},
+
+      success: function( data ) 
+        {   
+
+            alert(data.message)
+            window.location.reload();
+         
+        },
+
+      statusCode: {
+        404: function(response) {
+            alert('404')
+        },
+        500: function(response) {
+            alert('500')
+        },
+        400: function(response) {
+            alert('400')
+        },
+    }
+       
+     })
+   
+  };
+
+
+function EditCharges(clicked_id,audio_charge,video_charge,user_id,first_name,last_name,email,phone,role){
+
+
+    // var video_charge = $( "#" +clicked_id +'abc'+' '+ 'strong' ).html()
+    // var audio_charge = $( "#" +clicked_id +'abc'+' '+ 'p' ).html()
+    console.log('ok')
+    $('#appusers').empty()
+    $( "#error_message" ).text('')
+
+
+    var first_name= first_name;
+    var last_name= last_name;
+    var email=email ;
+    var phone=phone; 
+    var role=role;
+
+    $('#appusers').append('<tr><td><label class="custom-control custom-control-primary custom-checkbox"><input class="custom-control-input userselect" data-id="{{user.id}}" type="checkbox" checked disabled name="users"><span class="custom-control-indicator"></span><span class="custom-control-label"></span></label></td><td>'+first_name + last_name+'</td><td>'+email+'</td><td>'+phone+'</td><td>'+role+'</td></tr>')
+
+
+    $( "#audio_charge" ).val(audio_charge)
+    $( "#video_charge" ).val(video_charge)
+    $('#uservalues').append(`<input type="hidden" id=`+user_id+` value=`+user_id+` name="selectedUserIds">`);
+
+      $("html, body").animate({ scrollTop: 0 }, "slow");
+        return false;
+    
+}
+
+
+
+
+</script>
+

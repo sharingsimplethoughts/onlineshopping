@@ -1,0 +1,213 @@
+{% load staticfiles %}
+
+{% include 'admin-interface/header.html' %}
+
+<html>
+<head>
+<title>Chat</title>
+
+<style>
+  .align_left{
+    text-align: right;
+  }
+
+  .chat_container{
+    background: #696969;
+  }
+</style>
+
+
+</head>
+
+
+<body>
+    <h4>Previous chats</h4>
+    <ul id="mess_list">
+         {% for message in message_list%}
+    <li>{{message.message}}({{message.from_name}})</li>
+
+    {% endfor %}
+    </ul>
+
+  <input type="text" name="chat" id="text-msg" ><br>
+  <span id="msg-err"></span>
+  <button  class="send-message">Send</button>
+
+  <div id="postElement"></div>
+
+
+
+<!-- <script
+  src="https://code.jquery.com/jquery-3.4.1.min.js"
+  integrity="sha256-CSXorXvZcTkaix6Yvo6HppcZGetbYMGWSFlBw8HfCJo="
+  crossorigin="anonymous"></script> -->
+<script type="text/javascript">
+
+// Both user data
+
+
+var owner_id = '{{user.id}}'
+var owner_name = '{{user.name}}'
+var owner_profile_image = '{{user.profile_image}}'
+var owner_role = '{{user.role}}'
+
+var opp_user_id = '{{opp_user.id}}'
+var opp_user_name = '{{opp_user.name}}'
+var opp_user_role = '{{opp_user.role}}'
+var opp_user_profile_image = '{{opp_user.profle_image}}'
+
+
+  // Set the configuration for your app
+  // TODO: Replace with your project's config object
+
+  var config = {
+    apiKey: "apiKey",
+    authDomain: "authDomain",
+    databaseURL: "databaseURL",
+  };
+  firebase.initializeApp(config);
+
+
+// refrences
+
+var Message = firebase.database().ref('Messages/PrivateMessages/');
+var User = firebase.database().ref('Users/');
+var RecentMessage = firebase.database().ref('RecentMessage/');
+
+
+var child_id = Math.min(owner_id, opp_user_id)+'_'+Math.max(owner_id, opp_user_id);
+var recent_child = 'user_'+owner_id;
+
+// send nessage
+
+   $(".send-message").on('click',function(e){
+        e.preventDefault();
+
+        var msgtext=$("#text-msg").val();
+          $("#msg-err").empty();     
+          if(msgtext.trim()=="")
+           
+           {
+            $("#msg-err").text('Please enter text').css('color','red');
+            return false;
+
+           }
+          var unix = 14252514525;
+          var date = unix*1000;
+          
+          Message.child(child_id).push({
+              chat_id: child_id,
+              deleted:"",
+              from_name:owner_name,
+              mediaurl:"",
+              message: msgtext,
+              receiverid:opp_user_id,
+              senderid:owner_id,
+              status:"1", 
+              timestamp:date.toString(),
+              to_name:opp_user_name,
+              type:"1",
+
+          }, function(error) {
+            if (error) {
+              alert('error')
+            } else {
+              // alert('success')
+              
+            // clear text
+
+            $("#text-msg").val("");
+
+            
+            // update recent chat of owner
+            var update_owner_recent = RecentMessage.child('user_'+owner_id).child('user_'+opp_user_id
+            );
+
+            update_owner_recent.once('value', function(snapshot) {
+             if (snapshot.exists())
+             {
+              update_owner_recent.update({
+                timestamp:date.toString(),
+                lastmessage:msgtext,
+              });
+            }                
+             else
+             {
+              update_owner_recent.set({
+                id: opp_user_id,
+                lastmessage:msgtext,
+                name:opp_user_name,
+                profile_image:opp_user_profile_image,
+                readState:"0",
+                timestamp: date.toString()
+              });
+             }
+               
+          });
+
+          // update recent chat of opp_user
+
+          var update_opp_recent = RecentMessage.child('user_'+ opp_user_id).child('user_'+owner_id
+            );
+
+            update_opp_recent.once('value', function(snapshot) {
+             if (snapshot.exists())
+             {
+              update_opp_recent.update({
+                timestamp:date.toString(),
+                lastmessage:msgtext,
+              });
+            }                
+             else
+             {
+              update_opp_recent.set({
+                id: owner_id,
+                lastmessage:msgtext,
+                name:owner_name,
+                profile_image:owner_profile_image,
+                readState:"0",
+                timestamp: date.toString()
+              });
+             }
+               
+          });
+
+            }
+          });
+
+
+
+    })
+
+
+
+// on add new message in Message child
+
+  var initialDataLoaded = false;
+  Message.child(child_id).endAt().limitToLast(1).on('child_added', function(snapshot) {
+      // all records after the last continue to invoke this function
+      if (initialDataLoaded){
+
+        $('#mess_list').append('<li>'+snapshot.val().message+'<li>('+snapshot.val().from_name+')')
+      
+      }
+      console.log(snapshot.val());
+  
+   window.initialDataLoaded = true;
+
+
+});
+
+
+
+
+</script>
+
+
+</body>
+
+</html>
+
+
+
+</script>

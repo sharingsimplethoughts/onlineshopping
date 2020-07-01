@@ -1,0 +1,637 @@
+<!-- Latest compiled and minified CSS -->
+{% load staticfiles %}
+{% include 'admin-interface/header.html' %}
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+
+
+<div class="chatManagementPage ExplorerListPage">
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Chat Support</span>
+        </h1>
+      </div>
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="sidebar-chat">
+                <div class="row gutter-xs">
+                  <!-- <div class="sidebar-chat-info col-12 col-sm-12 col-md-12 col-lg-12">
+                    <form class="">
+                      <div class="form-group">
+                        <div class="searchbox">
+                          <input type="text" id="myInput" onkeyup="myFunction()" class="form-control form-control-rounded fs-13 heading-font-family pd-r-30" placeholder="Search for friends ..."> <i class="feather feather-search post-absolute pos-right vertical-center mr-3 text-muted"></i>
+                          <ul id="myUL">
+                            <li><a href="#">Akshay</a></li>
+                            <li><a href="#">Arun</a></li>
+                            <li><a href="#">Amresh</a></li>
+                            <li><a href="#">Ravi</a></li>
+                            <li><a href="#">Rohit</a></li>
+                            <li><a href="#">Rahul</a></li>
+                            <li><a href="#">Sonu</a></li>
+                            <li><a href="#">Suman</a></li>
+                            <li><a href="#">Sholu</a></li>
+                          </ul>
+                        </div>
+                      </div>
+                    </form>
+                  </div> -->
+
+                  <div class="chat-list col-12 col-sm-6 col-md-3 col-lg-3">
+                    <h6>Designer/Stylist List</h6>
+                    <div class="list-group" id="user_list">
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Julein Renvoye">-->
+<!--                        <figure class="thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Gene Newman</span>  <span class="username">@gene_newman</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Eddie Lebanovkiy">-->
+<!--                        <figure class="thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Billy Black</span>  <span class="username">@billyblack</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Cameron Moll">-->
+<!--                        <figure class="thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Herbert Diaz</span>  <span class="username">@herbert</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Bill S Kenny">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Sylvia Harvey</span>  <span class="username">@sylvia</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Trent Walton">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Marsha Hoffman</span>  <span class="username">@m_hoffman</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Julien Renvoye">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Mason Grant</span>  <span class="username">@masongrant</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Eddie Lebaovskiy">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Shelly Sullivan</span>  <span class="username">@shelly</span></span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Trent Walton">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Marsha Hoffman</span>  <span class="username">@m_hoffman</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Julien Renvoye">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Mason Grant</span>  <span class="username">@masongrant</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Eddie Lebaovskiy">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Shelly Sullivan</span>  <span class="username">@shelly</span></span>-->
+<!--                      </a>-->
+                    </div>
+                    <!-- /.list-group -->
+                  </div>
+                  <div class="chat-list col-12 col-sm-6 col-md-3 col-lg-3">
+                    <h6>Chat User List</h6>
+                    <div class="list-group" id="designer_list">
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Julein Renvoye">-->
+<!--                        <figure class="thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Gene Newman</span>  <span class="username">@gene_newman</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Trent Walton">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Marsha Hoffman</span>  <span class="username">@m_hoffman</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Julien Renvoye">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Mason Grant</span>  <span class="username">@masongrant</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Eddie Lebaovskiy">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Shelly Sullivan</span>  <span class="username">@shelly</span></span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Eddie Lebanovkiy">-->
+<!--                        <figure class="thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Billy Black</span>  <span class="username">@billyblack</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Cameron Moll">-->
+<!--                        <figure class="thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Herbert Diaz</span>  <span class="username">@herbert</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Bill S Kenny">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Sylvia Harvey</span>  <span class="username">@sylvia</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Trent Walton">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Marsha Hoffman</span>  <span class="username">@m_hoffman</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Julien Renvoye">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Mason Grant</span>  <span class="username">@masongrant</span> </span>-->
+<!--                      </a>-->
+<!--                      <a href="javascript:void(0)" class="list-group-item" data-chat-user="Eddie Lebaovskiy">-->
+<!--                        <figure class="user&#45;&#45;offline thumb-xs mr-3">-->
+<!--                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                        </figure><span><span class="name">Shelly Sullivan</span>  <span class="username">@shelly</span></span>-->
+<!--                      </a>-->
+                    </div>
+                    <!-- /.list-group -->
+                  </div>
+                  <!-- /.chat-list -->
+                  <!-- CHAT PANEL -->
+                  <div class="col-12 col-sm-12 col-md-6 col-lg-6" id="dialogbox">
+                    <h6>Messages</h6>
+                    <div class="card">
+                      <div class="card-header bg-massage text-center">
+<!--                        <a href="javascript:void(0);" class="fa fa-phone text-muted pull-left" onclick="makeAudioCall()"></a>-->
+<!--                          <span class="user-name heading-font-family fw-400"></span>-->
+
+<!--                          <a href="javascript:void(0);" class="fa fa-video-camera text-muted" onclick="makeVideoCall()"></a>-->
+<!--                        <span class="user-name heading-font-family fw-400"></span>-->
+                        <button type="button" class="close" onclick="hideChatBox()">&times;</button>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <div class="widget-chat-activity">
+                          <div class="scrollbar-enabled conversation">
+<!--                            <div class="message reply">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Epic Cheeseburgers come in all kind of styles.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Cheeseburgers make your knees weak.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message reply">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Cheeseburgers will never let you down.</p>-->
+<!--                                <p>They'll also never run around or desert you.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Cheeseburgers make your knees weak.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message reply">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Cheeseburgers will never let you down.</p>-->
+<!--                                <p>They'll also never run around or desert you.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Cheeseburgers make your knees weak.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message reply">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Cheeseburgers will never let you down.</p>-->
+<!--                                <p>They'll also never run around or desert you.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Cheeseburgers make your knees weak.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message reply">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Cheeseburgers will never let you down.</p>-->
+<!--                                <p>They'll also never run around or desert you.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Cheeseburgers make your knees weak.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message reply">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>Cheeseburgers will never let you down.</p>-->
+<!--                                <p>They'll also never run around or desert you.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>A great cheeseburger is a gastronomical event.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message reply">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>There's a cheesy incarnation waiting for you no matter what you palete preferences are.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+<!--                            </div>-->
+<!--                            &lt;!&ndash; /.message &ndash;&gt;-->
+<!--                            <div class="message">-->
+<!--                              <figure class="thumb-xs">-->
+<!--                                <a href="#">-->
+<!--                                  <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">-->
+<!--                                </a>-->
+<!--                              </figure>-->
+<!--                              <div class="message-body">-->
+<!--                                <p>If you are a vegan, we are sorry for you loss.</p>-->
+<!--                              </div>-->
+<!--                              &lt;!&ndash; /.message-body &ndash;&gt;-->
+                            </div>
+                            <!-- /.message -->
+                          </div>
+                          <!-- /.messages -->
+                        </div>
+                        <!-- /.widget-chat-acitvity -->
+                      </div>
+                      <!-- /.card-body -->
+<!--                      <form action="#" class="card-footer m-0 p-3" method="post">-->
+<!--                        <div class="d-flex justify-content-end">-->
+<!--                          &lt;!&ndash; <button type="button" class="btn-primary border-0 rounded-left"><i class="fa fa-plus-circle"></i></button> &ndash;&gt;-->
+<!--                          <button type="button" class="btn-primary border-0 rounded-left"><i class="fa fa-paperclip"></i></button>-->
+<!--                          <input class="form-control p-1 pr-2 pl-2 rounded-0" placeholder="Type your message here"/>-->
+<!--                          <button type="button" class="btn-primary border-0 rounded-right"><i class="fa fa-paper-plane"></i></button>-->
+<!--                        </div>-->
+<!--                      </form>-->
+                    </div>
+                    <!-- /.card -->
+                  </div>
+                  <!-- /.chat-panel -->
+                </div>
+                <!-- /.sidebar-chat -->
+              </div>
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+<div class="col s7">
+        <div class="video-grid" id="video">
+          <div class="video-view">
+            <div id="local_stream" class="video-placeholder">local stream</div>
+            <div id="local_video_info" class="video-profile hide"></div>
+            <div id="video_autoplay_local" class="autoplay-fallback hide"></div>
+          </div>
+        </div>
+      </div>
+
+<!--</div>-->
+
+{% include 'admin-interface/footer.html' %}
+
+<!--<script src="https://cdnjs.cloudflare.com/ajax/libs/materialize/1.0.0/js/materialize.min.js"></script>-->
+<!--  <script src="https://cdn.agora.io/sdk/release/AgoraRTCSDK-2.9.0.js"></script>-->
+<!--<script src="{% static 'js/avCustom.js' %}"></script>-->
+<script>
+
+<!--function makeCall(){-->
+<!--      var rtc = {-->
+<!--        client: null,-->
+<!--        joined: false,-->
+<!--        published: false,-->
+<!--        localStream: null,-->
+<!--        remoteStreams: [],-->
+<!--        params: {}-->
+<!--       };-->
+
+<!--      var option = {-->
+<!--        mode: 'live',-->
+<!--        codec: 'h264',-->
+<!--        appID: "6b8ef3c538b44702a8ed4ff602d1b70e",-->
+<!--        channel: "default",-->
+<!--        uid: null,-->
+<!--        token: ""-->
+<!--       };-->
+
+<!--       join(rtc, option, "local_stream")-->
+<!--}-->
+
+function myFunction() {
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("myUL");
+  li = ul.getElementsByTagName("li");
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("a")[0];
+    ul.classList.add("active");
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+</script>
+<script type="text/javascript">
+  var Message = firebase.database().ref('messages/');
+  var User = firebase.database().ref('users/');
+  var RecentMessage = firebase.database().ref('conversation/');
+
+  function hideChatBox(){
+    $("#dialogbox").css('display' ,'none')
+  }
+
+  function showChatBox(id,identifier){
+
+    //off previous listner
+    window.node_id=window.node_id
+    if (node_id){
+      Message.child(node_id).off("value")
+    }
+<!--    window.child_id = id-->
+<!--    console.log('child_id', child_id)-->
+<!--    debugger-->
+    window.node_id = Math.min(window.owner_id, id) + "_" + Math.max(window.owner_id, id)
+    Message.child(node_id).on("value", function(snapshot){
+      $(".conversation").empty()
+      snapshot.forEach(function(childNodes){
+         if(childNodes.val().type == "video")
+         {
+          var text = `<video  width="320" height="240" controls>
+            <source src="`+childNodes.val().content+`" type="video/mp4">
+            </video>`;
+         }
+         if(childNodes.val().type=="image")
+            {
+              var text='<a href="'+childNodes.val().content+'" target="_blank"><img src="'+childNodes.val().content+'">';
+            }
+
+         if(childNodes.val().type=="audio")
+            {
+              var text=  `<audio controls>
+                            <source src="`+childNodes.val().content +`" type="audio/ogg">
+
+                          </audio>`;
+            }
+          if(childNodes.val().type=="text")
+              {
+                var text=childNodes.val().content;
+              }
+          setTimeout(function () {
+            $(".card").scrollTop($('.bg-message').height());
+         }, 200);
+         if(childNodes.val().status=="0"){
+              status_class = null
+          }else{
+            status_class = 'viewed'
+          }
+          var image = ''
+          if(childNodes.val().from == window.owner_id){
+            var message_class = 'message send'
+            var image = window.owner_profile_pic
+          }else{
+            var message_class = 'message reply'
+            var image = $(identifier).data('image')
+          }
+         $(".conversation").append(`<div class="`+ message_class +`">
+                        <figure class="thumb-xs">
+                          <a href="#">
+                            <img src="`+ image +`" class="rounded-circle" alt="">
+                          </a>
+                        </figure>
+                        <div class="message-body" id=`+childNodes.key+`>
+                          <p class="`+status_class+` break_line">`+text +`<small>`+(convert(childNodes.val().timestamp))+`</small>`+`</p>
+                        </div>
+                        </div>`);
+
+          });
+
+          setTimeout(function(){
+            $(".scrollbar-enabled.conversation").stop().animate({
+            scrollTop: $(".scrollbar-enabled.conversation")[0].scrollHeight}, 0);
+          }, 10);
+      $("#dialogbox").css('display' ,'block')
+    });
+    }
+
+  function getOtherUserList(id, identifier){
+    window.owner_id = id
+    window.owner_profile_pic = $(identifier).data('image')
+    RecentMessage.child("user_"+id).on("value", function(snapshot){
+    $('#designer_list').empty()
+    window.designer_list = snapshot.val()
+    console.log(designer_list)
+    $.each(designer_list, function(key, value){
+    ids = key.split("_")
+    if(ids[0] == id){
+      var designer_id = ids[1]
+    }else{
+      var designer_id = ids[0]
+    }
+    var designer = user_list["user_"+designer_id]
+    console.log('designer', designer)
+  var data_image = designer['profilePic']
+  var role = designer['role']
+  var name = designer['name']
+  if(designer['isOnline']){
+    var onlinestatusclass = 'user--online'
+  }else{
+    var onlinestatusclass = 'user--offline'
+  }
+  if(data_image == ""){
+    data_image = "https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" }
+    var html = '<a href="javascript:void(0)" class="list-group-item" data-chat-user="Julein Renvoye" data-image="'+ data_image +'" data-role="'+ role +'" id="'+ designer_id +'" name="'+ name +'" onClick="showChatBox(this.id, this)">\
+                        <figure class="thumb-xs mr-3">\
+                          <img src="'+ data_image +'" class="rounded-circle" alt="">\
+                          <em class="'+ onlinestatusclass+'"></em>\
+                        </figure><span><span class="name">'+ name +'</span>  <span class="username"></span> </span>\
+                      </a>'
+    $('#designer_list').prepend(html)
+    });
+    });
+  }
+
+  User.on('value', function(snapshot){
+  $('#user_list').empty()
+  window.user_list = snapshot.val()
+  $.each(user_list, function(key, value){
+    if(value['role'] != '3' && value['role'] != '4'){ return }
+  var id = key.split("_")[1]
+  var data_image = value['profilePic']
+  var role = value['role']
+  var name = value['name']
+  if(value['isOnline']){
+    var onlinestatusclass = 'user--online'
+  }else{
+    var onlinestatusclass = 'user--offline'
+  }
+  if(data_image == ""){
+    data_image = "https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" }
+   var html = '<a href="javascript:void(0)" class="list-group-item" data-chat-user="Julein Renvoye" data-image="'+ data_image +'" data-role="'+ role +'" id="'+ id +'" name="'+ name +'" onClick="getOtherUserList(this.id, this)">\
+                        <figure class="thumb-xs mr-3">\
+                          <img src="'+ data_image +'" class="rounded-circle" alt="">\
+                          <em class="'+ onlinestatusclass+'"></em>\
+                        </figure><span><span class="name">'+ name +'</span>  <span class="username"></span> </span>\
+                      </a>'
+  $('#user_list').prepend(html)
+  });
+  });
+
+    User.on('child_changed', function(data) {
+      console.log(data.val().isOnline)
+      if(data.val().isOnline){
+        $(`#`+data.val().id +`.list-group-item em`).removeClass('user--offline').addClass('user--online')
+
+       }else{
+        $(`#`+data.val().id +`.list-group-item em`).removeClass('user--online').addClass('user--offline')
+
+      }
+});
+</script>
+<script type="text/javascript">
+  $(document).ready(function(){
+    $("#dialogbox").css('display' ,'none')
+    $('.scrollbar-enabled .message:last-child').animation({
+
+    },100);
+
+    $('html').click(function(){
+      $('#myUL').removeClass('active');
+    });
+    $('#myInput').click(function(e){
+      e.preventdefault();
+    });
+    $('#myUL li a').click(function(){
+      var aaa = this.innerHTML();
+      $('#myInput').val(aaa);
+      $('#myUL').removeClass('active');
+    });
+
+  });
+
+function convert(unixtimestamp){
+
+    var d = new Date(parseInt(unixtimestamp)),  // Convert the passed timestamp to milliseconds
+      yyyy = d.getFullYear(),
+      mm = ('0' + (d.getMonth() + 1)).slice(-2),  // Months are zero based. Add leading 0.
+      dd = ('0' + d.getDate()).slice(-2),     // Add leading 0.
+      hh = d.getHours(),
+      h = hh,
+      min = ('0' + d.getMinutes()).slice(-2),   // Add leading 0.
+      ampm = 'AM',
+      time;
+
+    if (hh > 12) {
+      h = hh - 12;
+      ampm = 'PM';
+    } else if (hh === 12) {
+      h = 12;
+      ampm = 'PM';
+    } else if (hh == 0) {
+      h = 12;
+    }
+
+    // ie: 2013-02-18, 8:35 AM
+    time =  h + ':' + min + ' ' + ampm;
+
+    return time;
+
+}
+
+</script>

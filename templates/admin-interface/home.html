@@ -1,0 +1,381 @@
+<!-- {% block title %}Home{% endblock %}
+
+{% block content %}
+{% if user.is_authenticated %}
+  Hi {{ user.username }}!
+  <a href="/admin/users/logout/">logout</a>
+{% else %}
+  <p>You are not logged in</p>
+  <a href="admin-login">login</a>
+{% endif %}
+{% endblock %}
+ -->
+{% load staticfiles %}
+
+{% include 'admin-interface/header.html' %}
+
+<style>
+  .progress{
+    margin-top: 15px !important;
+    margin-bottom: 0 !important;
+  }
+</style>
+    <div class="dashboardPage"></div>
+    <div class="layout-content">
+         <div class="layout-content-body">
+          <div class="title-bar">
+
+            <h1 class="title-bar-title">
+              <span class="d-ib">Dashboard</span>
+              <span style="float: right;">
+                <form class="form">
+                  <select class="form-control">
+                    <option>Yearly</option>
+                    <option>Monthly</option>
+                    <option>Weekly</option>
+                  </select>
+                </form>
+              </span>
+            </h1>
+
+          </div>
+          <div class="row gutter-xs">
+            <div class="col-md-6 col-lg-3 col-lg-push-0">
+              <div class="card">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-middle media-left">
+                      <span class="bg-info circle sq-48">
+                        <span class="icon icon-shopping-cart"></span>
+                      </span>
+                    </div>
+                    <div class="media-middle media-body">
+                      <h6 class="media-heading">Total Orders</h6>
+                      <h3 class="media-heading">
+                        <span class="fw-l">850</span>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 col-lg-push-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-middle media-left">
+                      <span class="bg-default circle sq-48">
+                        <span class="icon icon-user"></span>
+                      </span>
+                    </div>
+                    <div class="media-middle media-body">
+                      <h6 class="media-heading">Total Users</h6>
+                      <h3 class="media-heading">
+                        <span class="fw-l">1656</span>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 col-lg-pull-3">
+              <div class="card">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-middle media-left">
+                      <span class="bg-primary circle sq-48">
+                        <span class="icon icon-pie-chart"></span>
+                      </span>
+                    </div>
+                    <div class="media-middle media-body">
+                      <h6 class="media-heading">Net Prodit</h6>
+                      <h3 class="media-heading">
+                        <span class="fw-l">$750</span>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6 col-lg-3 col-lg-pull-0">
+              <div class="card">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-middle media-left">
+                      <span class="bg-danger circle sq-48">
+                        <span class="icon icon-download"></span>
+                      </span>
+                    </div>
+                    <div class="media-middle media-body">
+                      <h6 class="media-heading">Today Downloads</h6>
+                      <h3 class="media-heading">
+                        <span class="fw-l">1587</span>
+                      </h3>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div class="row gutter-xs">
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-middle media-left">
+                      <span class="bg-success sq-64 circle">
+                        <span class="icon icon-shopping-cart"></span>
+                      </span>
+                    </div>
+                    <div class="media-middle media-body">
+                      <h3 class="media-heading">
+                        <span class="fw- text-success">1200 </span>
+                        <!-- <span class="fw-b fz-sm text-danger">
+                          <span class="icon icon-caret-up"></span>
+                          15%
+                        </span> -->
+                      </h3>
+                      <small class="text-success">Orders Completed</small>
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar bg-success" style="width:70%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-middle media-left">
+                      <span class="bg-info sq-64 circle">
+                        <span class="icon icon-shopping-cart"></span>
+                      </span>
+                    </div>
+                    <div class="media-middle media-body">
+                      <h3 class="media-heading">
+                        <span class="fw- text-info">1200 </span>
+                        <!-- <span class="fw-b fz-sm text-danger">
+                          <span class="icon icon-caret-up"></span>
+                          15%
+                        </span> -->
+                      </h3>
+                      <small class="text-info">Orders Pending</small>
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar bg-info" style="width:55%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-4">
+              <div class="card">
+                <div class="card-body">
+                  <div class="media">
+                    <div class="media-middle media-left">
+                      <span class="bg-danger sq-64 circle">
+                        <span class="icon icon-shopping-cart"></span>
+                      </span>
+                    </div>
+                    <div class="media-middle media-body">
+                      <h3 class="media-heading">
+                        <span class="fw- text-danger">1200 </span>
+                        <!-- <span class="fw-b fz-sm text-danger">
+                          <span class="icon icon-caret-up"></span>
+                          15%
+                        </span> -->
+                      </h3>
+                      <small class="text-danger">Orders Cancelled</small>
+                    </div>
+                    <div class="progress">
+                      <div class="progress-bar bg-danger" style="width:30%"></div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+          </div>
+
+          <div class="row gutter-xs">
+            <div class="col-xs-12 col-md-6">
+              <div class="panel panel-body text-center" data-toggle="match-height">
+                <canvas data-chart="line" data-labels='["May", "Jun", "Jul", "Aug"]' data-values='[{"backgroundColor": "rgba(80, 180, 50, 0.2)", "borderColor": "#50b432", "borderWidth": 2, "pointBackgroundColor": "#50b432", "pointRadius": 1, "label": "Visitors", "data": [60285, 50687, 56529, 49634]}]' data-hide='["gridLinesX", "legend"]' height="150" width="300"></canvas>
+                <h6 class="m-b-0">Total Sales</h6>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+              <div class="panel panel-body text-center" data-toggle="match-height">
+                <canvas data-chart="line" data-labels='["01 Jun, 2017", "02 Jun, 2017", "03 Jun, 2017", "04 Jun, 2017", "05 Jun, 2017", "06 Jun, 2017", "07 Jun, 2017", "08 Jun, 2017", "09 Jun, 2017", "10 Jun, 2017", "11 Jun, 2017", "12 Jun, 2017", "13 Jun, 2017", "14 Jun, 2017", "15 Jun, 2017", "16 Jun, 2017", "17 Jun, 2017", "18 Jun, 2017", "19 Jun, 2017", "20 Jun, 2017", "21 Jun, 2017", "22 Jun, 2017", "23 Jun, 2017", "24 Jun, 2017", "25 Jun, 2017", "26 Jun, 2017", "27 Jun, 2017", "28 Jun, 2017", "29 Jun, 2017", "30 Jun, 2017"]' data-values='[{"backgroundColor": "rgba(80, 180, 50, 0.2)", "borderColor": "#50b432", "borderWidth": 1, "label": "New Visitor", "data": [325, 427, 399, 458, 745, 587, 758, 754, 710, 841, 645, 548, 645, 651, 645, 712, 631, 754, 611, 645, 500, 490, 565, 751, 654, 658, 456, 445, 701, 711]}, {"backgroundColor": "rgba(5, 141, 199, 0.2)", "borderColor": "#058dc7", "borderWidth": 1, "label": "Returning Visitor", "data": [750, 772, 871, 1011, 1136, 985, 1003, 897, 945, 975, 957, 1070, 1121, 1065, 1222, 1065, 1235, 1312, 1165, 1135, 1130, 1136, 1009, 1035, 1003, 981, 965, 1098, 958, 1205]}]' data-hide='["scalesX", "legend", "points"]' height="150" width="300"></canvas>
+                <h6 class="m-b-0">Cancelled Products</h6>
+              </div>
+            </div>
+          </div>
+          <div class="row gutter-xs">
+            <div class="col-xs-12 col-md-6">
+              <div class="panel panel-body text-center" data-toggle="match-height">
+                <canvas data-chart="bar" data-labels='["May", "Jun", "Jul", "Aug"]' data-values='[{"backgroundColor": "rgba(80, 180, 50, 0.2)", "borderColor": "#50b432", "borderWidth": 1, "label": "Visitors", "data": [60285, 50687, 56529, 49634]}]' data-hide='["legend"]' data-scales='{"xAxes": [{ "barPercentage": 0.5 }]}' height="150" width="300"></canvas>
+                <h6 class="m-b-0">Average Order Value</h6>
+              </div>
+            </div>
+            <div class="col-xs-12 col-md-6">
+              <div class="panel panel-body text-center" data-toggle="match-height">
+                <canvas data-chart="bar" data-labels='["May", "Jun", "Jul", "Aug"]' data-values='[{"backgroundColor": "rgba(80, 180, 50, 0.2)", "borderColor": "#50b432", "borderWidth": 1, "label": "New Visitor", "data": [10489, 14790, 20332, 18422]}, {"backgroundColor": "rgba(5, 141, 199, 0.2)", "borderColor": "#058dc7", "borderWidth": 1, "label": "Returning Visitor", "data": [29174, 35897, 36197, 31212]}]' data-scales='{"yAxes": [{ "ticks": { "beginAtZero": "ture" }}]}' data-hide='["gridLinesX"]' height="150" width="300"></canvas>
+                <h6 class="m-b-0">Total Orders</h6>
+              </div>
+            </div>
+          </div>
+          <div class="row gutter-xs">
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-actions">
+                    <button type="button" class="card-action card-toggler" title="Collapse"></button>
+                    <button type="button" class="card-action card-reload" title="Reload"></button>
+                    <!-- <button type="button" class="card-action card-remove" title="Remove"></button> -->
+                  </div>
+                  <strong>Basic Table</strong>
+                </div>
+                <div class="card-body" data-toggle="match-height">
+                  <table class="table">
+                    <thead>
+                      <tr>
+                        <th>#</th>
+                        <th>Campaign Name</th>
+                        <th>Link Clicks</th>
+                        <th>Reach</th>
+                        <th>Status</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td>1</td>
+                        <td>Website traffic</td>
+                        <td>11,706</td>
+                        <td>58,530</td>
+                        <td>
+                          <span class="label label-outline-success">Active</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>2</td>
+                        <td>Remarketing</td>
+                        <td>15,860</td>
+                        <td>79,300</td>
+                        <td>
+                          <span class="label label-outline-success">Active</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>3</td>
+                        <td>Page Likes</td>
+                        <td>11,688</td>
+                        <td>58,440</td>
+                        <td>
+                          <span class="label label-outline-success">Active</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>4</td>
+                        <td>Email Signups</td>
+                        <td>13,049</td>
+                        <td>65,245</td>
+                        <td>
+                          <span class="label label-outline-info">Pending</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td>5</td>
+                        <td>Product catalog</td>
+                        <td>18,884</td>
+                        <td>94,423</td>
+                        <td>
+                          <span class="label label-outline-danger">Inactive</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+            <div class="col-md-6">
+              <div class="card">
+                <div class="card-header">
+                  <div class="card-actions">
+                    <button type="button" class="card-action card-toggler" title="Collapse"></button>
+                    <button type="button" class="card-action card-reload" title="Reload"></button>
+                    <!-- <button type="button" class="card-action card-remove" title="Remove"></button> -->
+                  </div>
+                  <strong>Hover Table (Align: left, right, center)</strong>
+                </div>
+                <div class="card-body" data-toggle="match-height">
+                  <table class="table table-hover">
+                    <thead>
+                      <tr>
+                        <th class="text-left">#</th>
+                        <th class="text-left">Campaign Name</th>
+                        <th class="text-right">Link Clicks</th>
+                        <th class="text-right">Reach</th>
+                        <th class="text-center">Performance</th>
+                      </tr>
+                    </thead>
+                    <tbody>
+                      <tr>
+                        <td class="text-left">1</td>
+                        <td class="text-left">Website traffic</td>
+                        <td class="text-right">11,706</td>
+                        <td class="text-right">58,530</td>
+                        <td class="text-center">
+                          <span data-peity="line">5,3,9,6,5,9,7,3,5,2</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-left">2</td>
+                        <td class="text-left">Remarketing</td>
+                        <td class="text-right">15,860</td>
+                        <td class="text-right">79,300</td>
+                        <td class="text-center">
+                          <span data-peity="line">4,9,6,7,3,1,2,5,6,8</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-left">3</td>
+                        <td class="text-left">Page Likes</td>
+                        <td class="text-right">11,688</td>
+                        <td class="text-right">58,440</td>
+                        <td class="text-center">
+                          <span data-peity="line">1,2,1,6,8,9,5,4,7,3</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-left">4</td>
+                        <td class="text-left">Email Signups</td>
+                        <td class="text-right">13,049</td>
+                        <td class="text-right">65,245</td>
+                        <td class="text-center">
+                          <span data-peity="line">2,7,0,4,6,1,8,5,9,3</span>
+                        </td>
+                      </tr>
+                      <tr>
+                        <td class="text-left">5</td>
+                        <td class="text-left">Product catalog</td>
+                        <td class="text-right">18,884</td>
+                        <td class="text-right">94,423</td>
+                        <td class="text-center">
+                          <span data-peity="line">9,4,3,1,7,8,0,2,6,5</span>
+                        </td>
+                      </tr>
+                    </tbody>
+                  </table>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+    </div>
+
+
+{% include 'admin-interface/footer.html' %}
+
+

@@ -1,0 +1,774 @@
+{% load staticfiles %}
+
+<link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,400,400italic,500,700">
+    <link rel="stylesheet" href="{% static 'css/vendor.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/elephant.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/application.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/profile.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/product.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/demo.min.css' %}">
+    <link rel="stylesheet" href="{% static 'css/iEdit.css' %}">
+    <link rel="stylesheet" href="{% static 'css/style.css' %}">
+<!--    <link rel="stylesheet" href="{% static 'fonts/font-awesome/css/font-awesome.min.css' %}">-->
+<link rel="stylesheet" href="https://pro.fontawesome.com/releases/v5.13.0/css/all.css">
+
+<link rel="stylesheet" href="{% static  'css/shopping-cart.min.css' %}">
+         <style type="text/css">
+
+      .errorlist {
+      list-style: none !important;
+      }
+    </style>
+
+<script src="{% static 'js/jquery.min.js' %}"></script>
+<script src="{% static 'js/vendor.min.js' %}"></script>
+    <script src="{% static 'js/elephant.min.js' %}"></script>
+    <script src="{% static 'js/application.min.js' %}"></script>
+    <script src="{% static 'js/iEdit.js' %}"></script>
+    <script src="{% static 'js/profile.min.js' %}"></script>
+     <script src="{% static 'js/demo.min.js' %}"></script>
+
+      <script src="{% static 'js/product.min.js' %}"></script>
+
+
+
+      <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-app.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-messaging.js"></script>
+      <script src="https://www.gstatic.com/firebasejs/7.6.0/firebase-database.js"></script>
+     <script>
+
+     </script>
+
+
+
+      <script>
+          // Your web app's Firebase configuration
+          var firebaseConfig = {
+            apiKey: "apiKey",
+            authDomain: "authDomain",
+            databaseURL: "databaseURL",
+            projectId: "projectId",
+            storageBucket: "storageBucket",
+            messagingSenderId: "messagingSenderId",
+            appId: "appId",
+            measurementId: "measurementId"
+          };
+          // Initialize Firebase
+          firebase.initializeApp(firebaseConfig);
+        </script>
+
+
+
+
+<style type="text/css">
+.video-detail{
+    position: relative;
+}
+.video-title{
+    background-color: #35445d;
+    padding: 10px;
+}
+.video-title h6{
+    color: #fff;
+    margin-bottom: 0;
+    padding: 5px;
+}
+.video-detail{
+    position:relative;
+    border-bottom: 1px solid #e5e5e5;
+}
+.d-flex{
+    display: flex;
+}
+.rounded-circle{
+    border-radius: 50%;
+}
+.video-image{
+    text-align:center;
+    margin-top: 13px;
+    margin-bottom: 13px;
+}
+.pointer{
+    cursor: pointer;
+}
+
+.margin-left-15{
+    margin-left: 15px;
+}
+.margin-right-15{
+    margin-right: 15px;
+}
+.fs-17{
+    font-size: 17px;
+}
+.call-duration{
+    position: relative;
+}
+.duration{
+    position: relative;
+    text-align: center;
+}
+.duration h6{
+    margin-bottom: 0px;
+}
+.sidebar-chat1{
+    width: 100%;
+    float: left;
+    height: 408px;
+    border-radius: 4px;
+    overflow-y: auto;
+    display: block;
+    overflow-x: hidden;
+    border: 1px solid #e5e5e5;
+    margin-bottom: 20px;
+}
+.text-right{
+    text-align: right;
+}
+.cl-down{
+    position: relative;
+    padding: 10px 10px 0;
+}
+.fs-25{
+    font-size: 25px;
+}
+.video-calling-page{
+    position: relative;
+    width: 100%;
+    height: 100vh;
+    height: 408px;
+}
+.video-button{
+    position: relative;
+    padding: 15px;
+}
+.v-voluem i{
+    position: relative;
+    background-color: #fff;
+    width: 40px;
+    height: 40px;
+    font-size: 20px;
+    padding: 10px;
+    cursor: pointer;
+    border-radius: 40px;
+}
+.c-camera i{
+    position: relative;
+    background-color: #fff;
+    width: 40px;
+    height: 40px;
+    cursor: pointer;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 40px;
+}
+.m-microphone i{
+    position: relative;
+    background-color: #fff;
+    width: 40px;
+    cursor: pointer;
+    height: 40px;
+    font-size: 20px;
+    padding: 10px;
+    border-radius: 40px;
+}
+
+.ring-p {
+    position: relative;
+    padding-top: 134px;
+}
+.calling-title{
+    position: relative;
+    padding-top: 8px;
+    width: 290px;
+    margin: 0 auto;
+}
+.calling-title h6{
+font-size: 16px;
+margin-bottom:6px;
+}
+.arow-call{
+    position: relative;
+     padding: 13px 13px 0;
+}
+.calling-title p{
+    font-size: 21px;
+    color: #1B6BCC;
+}
+.video-call{
+    position: relative;
+    width:100%;
+    background-color: #ddd;
+    height: calc(100% - 50px);
+}
+.c-call i{
+    position: relative;
+    background-color: red;
+    width: 40px;
+    cursor: pointer;
+    height: 40px;
+    font-size: 20px;
+    padding: 10px;
+    color: #fff;
+    border-radius: 40px;
+}
+#local_stream{
+margin: 0 auto !important;
+}
+
+// ravi sir updates
+.video-button {
+    position: relative;
+    padding: 15px;
+    float: left;
+    width: 100%;
+}
+
+.video-view {
+    float: left;
+    width: 50%;
+    padding: 10px;
+}
+
+</style>
+	   <div class="video-calling-page">
+	 <div class="video-call">
+		 <div class="arow-call">
+			<i class="fa fs-25 fa-angle-left text-success" aria-hidden="true"></i>
+		 </div>
+		<div class="calling-title text-center">
+			{% if video %}
+		  <h6 class="">Video Calling....</h6>
+			{% else %}
+			<h6 class="">Audio Calling....</h6>
+			{% endif %}
+		  <p>{{opp_user_profile.first_name}} {{opp_user_profile.last_name}}</p>
+		</div>
+		 <div class="video-grid" id="video">
+		 <div class="video-view">
+				<div id="local_stream" class="video-placeholder"></div>
+	<!--                                    <div id="remote_stream" class="video-placeholder"></div>-->
+<!--		<div class="video-call-btn">-->
+<!--		   <div class="ring-p text-center">-->
+<!--			  <a class="c-call text-center">-->
+<!--				  <i class="fa fa-phone" aria-hidden="true" id="disconnect"></i>-->
+<!--			  </a>-->
+<!--		   </div>-->
+<!--		</div>-->
+			</div>
+		 </div>
+		
+	 </div>
+<!--		<div class="video-button">-->
+<!--		  <div class="row">-->
+<!--	&lt;!&ndash;                                  <div class="col-md-4 text-center">&ndash;&gt;-->
+<!--	&lt;!&ndash;                                      <a class="v-voluem" id="mute">&ndash;&gt;-->
+<!--	&lt;!&ndash;                                          <i class="fa fa-volume-up" aria-hidden="true"></i>&ndash;&gt;-->
+<!--	&lt;!&ndash;                                      </a>&ndash;&gt;-->
+<!--	&lt;!&ndash;                                  </div>&ndash;&gt;-->
+<!--			  <div class="col-md-offset-2 col-md-4 text-center">-->
+<!--				  <a class="c-camera">-->
+<!--					  <i class="fa fa-video-camera" id="publish" aria-hidden="true"></i>-->
+<!--				  </a>-->
+<!--			  </div>-->
+<!--			  <div class="col-md-4 text-center">-->
+<!--				  <a class="m-microphone">-->
+<!--					  <i class="fa fa-microphone" id="mute" aria-hidden="true"></i>-->
+<!--				  </a>-->
+<!--			  </div>-->
+<!--		  </div>-->
+<!--		</div>-->
+		   <div class="video-button">
+		  <div class="row">
+	<!--                                  <div class="col-md-4 text-center">-->
+	<!--                                      <a class="v-voluem" id="mute">-->
+	<!--                                          <i class="fa fa-volume-up" aria-hidden="true"></i>-->
+	<!--                                      </a>-->
+	<!--                                  </div>-->
+			  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+				  <a class="c-camera">
+					  <i class="fa fa-video" id="publish" aria-hidden="true"></i>
+				  </a>
+			  </div>
+			  <div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+
+			  <a class="c-call text-center">
+				  <i class="fa fa-phone" aria-hidden="true" id="disconnect"></i>
+			  </a></div><div class="col-xs-4 col-sm-4 col-md-4 col-lg-4 text-center">
+				  <a class="m-microphone">
+					  <i class="fa fa-microphone" id="mute" aria-hidden="true"></i>
+				  </a>
+			  </div>
+		  </div>
+		</div>
+	</div>
+
+
+	
+
+
+<script src="https://cdn.agora.io/sdk/release/AgoraRTCSDK-2.9.0.js"></script>
+<script type="text/javascript" src="{% static 'js/avCustom.js' %}"></script>
+
+<script type="text/javascript">
+    $(document).ready(function(){
+    $("#local_stream").width(640).height(300);
+
+        window.rtc = {
+        client: null,
+        joined: false,
+        published: false,
+        localStream: null,
+        remoteStreams: [],
+        params: {}
+       };
+
+        window.option = {
+        mode: 'live',
+        codec: 'h264',
+        appID: "6b8ef3c538b44702a8ed4ff602d1b70e",
+        channel: "{{channel_id}}",
+        uid: null,
+        token: "46222c22f3084bcda91eb1527073b665"
+       };
+
+       if("{{video}}" == "True"){
+        join(rtc, option, "local_stream", true, true)
+       }
+       if("{{video}}" == "False"){
+        join(rtc, option, "audio_stream", true, false)
+       }
+
+    })
+
+    $('#mute').click(function(){
+        muteButton = $('#mute')
+        if(muteButton.hasClass("fa-microphone")){
+            mute(rtc)
+        }
+        if(muteButton.hasClass("fa-microphone-slash")){
+            unMute(rtc)
+        }
+        muteButton.toggleClass("fa-microphone-slash").toggleClass("fa-microphone");
+    })
+
+    $('#publish').click(function(){
+        publishButton = $('#publish')
+        if(publishButton.hasClass("fa fa-video")){
+            unpublish(rtc)
+        }
+        if(publishButton.hasClass("fa-video-slash")){
+            publish(rtc)
+        }
+        publishButton.toggleClass("fa-video-slash").toggleClass("fa-video");
+    })
+
+    $('#disconnect').click(function(){
+        leave(rtc)
+        window.location.href = '/admin/users/chat/dashboard'
+    })
+</script>
+
+
+<script type="text/javascript">
+
+  console.log("agora sdk version: " + AgoraRTC.VERSION + " compatible: " + AgoraRTC.checkSystemRequirements());
+    var resolutions = [
+      {
+        name: 'default',
+        value: 'default',
+      },
+      {
+        name: '480p',
+        value: '480p',
+      },
+      {
+        name: '720p',
+        value: '720p',
+      },
+      {
+        name: '1080p',
+        value: '1080p'
+      }
+    ];
+
+    function addView (id, show) {
+    console.log('in add view')
+
+        $("<div/>", {
+          id: "remote_video_panel_" + id,
+          class: "video-view",
+        }).appendTo("#video");
+
+        $("<div/>", {
+          id: "remote_video_" + id,
+          class: "video-placeholder",
+        }).appendTo("#remote_video_panel_" + id);
+
+        $("<div/>", {
+          id: "video_autoplay_"+ id,
+          class: "autoplay-fallback hide",
+        }).appendTo("#remote_video_panel_" + id);
+        $("#remote_video_" + id).width(640).height(480);
+      }
+
+    function removeView (id) {
+      if ($("#remote_video_panel_" + id)[0]) {
+        $("#remote_video_panel_" + id).remove();
+      }
+    }
+
+    function getDevices (next) {
+      AgoraRTC.getDevices(function (items) {
+        items.filter(function (item) {
+          return ['audioinput', 'videoinput'].indexOf(item.kind) !== -1
+        })
+        .map(function (item) {
+          return {
+          name: item.label,
+          value: item.deviceId,
+          kind: item.kind,
+          }
+        });
+        var videos = [];
+        var audios = [];
+        for (var i = 0; i < items.length; i++) {
+          var item = items[i];
+          if ('videoinput' == item.kind) {
+            var name = item.label;
+            var value = item.deviceId;
+            if (!name) {
+              name = "camera-" + videos.length;
+            }
+            videos.push({
+              name: name,
+              value: value,
+              kind: item.kind
+            });
+          }
+          if ('audioinput' == item.kind) {
+            var name = item.label;
+            var value = item.deviceId;
+            if (!name) {
+              name = "microphone-" + audios.length;
+            }
+            audios.push({
+              name: name,
+              value: value,
+              kind: item.kind
+            });
+          }
+        }
+        next({videos: videos, audios: audios});
+      });
+    }
+
+    var rtc = {
+      client: null,
+      joined: false,
+      published: false,
+      localStream: null,
+      remoteStreams: [],
+      params: {}
+    };
+
+    function handleEvents (rtc) {
+      // Occurs when an error message is reported and requires error handling.
+      rtc.client.on("error", (err) => {
+        console.log(err)
+      })
+      // Occurs when the peer user leaves the channel; for example, the peer user calls Client.leave.
+      rtc.client.on("peer-leave", function (evt) {
+        var id = evt.uid;
+        console.log("id", evt);
+        if (id != rtc.params.uid) {
+          removeView(id);
+        }
+        window.location.href = '/admin/users/chat/dashboard'
+        console.log('peer-leave', id);
+      })
+      // Occurs when the local stream is published.
+      rtc.client.on("stream-published", function (evt) {
+        console.log("stream-published");
+      })
+      // Occurs when the remote stream is added.
+      rtc.client.on("stream-added", function (evt) {
+        var remoteStream = evt.stream;
+        var id = remoteStream.getId();
+        if (id !== rtc.params.uid) {
+          rtc.client.subscribe(remoteStream, function (err) {
+            console.log("stream subscribe failed", err);
+          })
+        }
+        console.log('stream-added remote-uid: ', id);
+      });
+      // Occurs when a user subscribes to a remote stream.
+      rtc.client.on("stream-subscribed", function (evt) {
+        var remoteStream = evt.stream;
+        var id = remoteStream.getId();
+        rtc.remoteStreams.push(remoteStream);
+        addView(id);
+        remoteStream.play("remote_video_" + id);
+        console.log('stream-subscribed remote-uid: ', id);
+      })
+      // Occurs when the remote stream is removed; for example, a peer user calls Client.unpublish.
+      rtc.client.on("stream-removed", function (evt) {
+        var remoteStream = evt.stream;
+        var id = remoteStream.getId();
+        remoteStream.stop("remote_video_" + id);
+        rtc.remoteStreams = rtc.remoteStreams.filter(function (stream) {
+          return stream.getId() !== id
+        })
+        removeView(id);
+        console.log('stream-removed remote-uid: ', id);
+      })
+      rtc.client.on("onTokenPrivilegeWillExpire", function(){
+        // After requesting a new token
+        // rtc.client.renewToken(token);
+        console.log("onTokenPrivilegeWillExpire")
+      });
+      rtc.client.on("onTokenPrivilegeDidExpire", function(){
+        // After requesting a new token
+        // client.renewToken(token);
+        console.log("onTokenPrivilegeDidExpire")
+      })
+    }
+
+    /**
+      * rtc: rtc object
+      * option: {
+      *  mode: string, 'live' | 'rtc'
+      *  codec: string, 'h264' | 'vp8'
+      *  appID: string
+      *  channel: string, channel name
+      *  uid: number
+      *  token; string,
+      * }
+     **/
+    function join (rtc, option, local_stream_id, audio, video) {
+      if (rtc.joined) {
+        console.log("Your already joined");
+        return;
+      }
+
+      /**
+       * A class defining the properties of the config parameter in the createClient method.
+       * Note:
+       *    Ensure that you do not leave mode and codec as empty.
+       *    Ensure that you set these properties before calling Client.join.
+       *  You could find more detail here. https://docs.agora.io/en/Video/API%20Reference/web/interfaces/agorartc.clientconfig.html
+      **/
+      rtc.client = AgoraRTC.createClient({mode: option.mode, codec: option.codec});
+
+      rtc.params = option;
+
+      // handle AgoraRTC client event
+      handleEvents(rtc);
+
+      // init client
+      rtc.client.init(option.appID, function () {
+        console.log("init success");
+
+        /**
+         * Joins an AgoraRTC Channel
+         * This method joins an AgoraRTC channel.
+         * Parameters
+         * tokenOrKey: string | null
+         *    Low security requirements: Pass null as the parameter value.
+         *    High security requirements: Pass the string of the Token or Channel Key as the parameter value. See Use Security Keys for details.
+         *  channel: string
+         *    A string that provides a unique channel name for the Agora session. The length must be within 64 bytes. Supported character scopes:
+         *    26 lowercase English letters a-z
+         *    26 uppercase English letters A-Z
+         *    10 numbers 0-9
+         *    Space
+         *    "!", "#", "$", "%", "&", "(", ")", "+", "-", ":", ";", "<", "=", ".", ">", "?", "@", "[", "]", "^", "_", "{", "}", "|", "~", ","
+         *  uid: number | null
+         *    The user ID, an integer. Ensure this ID is unique. If you set the uid to null, the server assigns one and returns it in the onSuccess callback.
+         *   Note:
+         *      All users in the same channel should have the same type (number or string) of uid.
+         *      If you use a number as the user ID, it should be a 32-bit unsigned integer with a value ranging from 0 to (232-1).
+        **/
+        rtc.client.join(option.token ? option.token : null, option.channel, option.uid ? +option.uid : null, function (uid) {
+          console.log("join channel: " + option.channel + " success, uid: " + uid);
+          rtc.joined = true;
+
+          rtc.params.uid = uid;
+
+          // create local stream
+          rtc.localStream = AgoraRTC.createStream({
+            streamID: rtc.params.uid,
+            audio: audio,
+            video: video,
+            screen: false,
+<!--            microphoneId: option.microphoneId,-->
+<!--            cameraId: 'iGMxJDLC/oEZoRtb0pB6EonHnw7sumD5Mk+YvPkyTEY=',-->
+          })
+
+        rtc.localStream.setVideoEncoderConfiguration({
+    // The video resolution.
+            resolution: {
+            width: 640,
+            height: 480
+            },
+  // The video frame rate (fps). We recommend setting it as 15. Do not set it to a value greater than 30.
+            frameRate: {
+                min: 15,
+                max: 30
+            },
+  // The video bitrate (Kbps). Refer to the video profile table below to set this parameter.
+            bitrate: {
+                min: 1000,
+                max: 5000
+            }
+           });
+
+          // init local stream
+          rtc.localStream.init(function () {
+            console.log("init local stream success");
+            // play stream with html element id "local_stream"
+            rtc.localStream.play(local_stream_id, {fit: "cover"});
+
+            // publish local stream
+            publish(rtc);
+          }, function (err)  {
+            console.error("init local stream failed ", err);
+          })
+        }, function(err) {
+          console.error("client join failed", err)
+        })
+      }, (err) => {
+        console.error(err);
+      });
+    }
+
+    function mute(rtc) {
+      if (!rtc.client) {
+        Toast.error("Please Join First!");
+        return;
+      }
+      if (!rtc.joined) {
+        Toast.error("You are not in channel");
+        return;
+      }
+      rtc.localStream.muteAudio()
+    console.log(rtc.localStream)
+    }
+
+    function unMute(rtc) {
+      if (!rtc.client) {
+        Toast.error("Please Join First!");
+        return;
+      }
+      if (!rtc.joined) {
+        Toast.error("You are not in channel");
+        return;
+      }
+      rtc.localStream.unmuteAudio()
+    console.log(rtc.localStream)
+    }
+
+
+    function publish (rtc) {
+      if (!rtc.client) {
+        console.log("Please Join Room First");
+        return;
+      }
+      if (rtc.published) {
+        console.log("Your already published");
+        return;
+      }
+      var oldState = rtc.published;
+
+      // publish localStream
+      rtc.client.publish(rtc.localStream, function (err) {
+        rtc.published = oldState;
+        console.log("publish failed");
+        console.error(err);
+      })
+      console.log("publish")
+      rtc.published = true
+    }
+
+    function unpublish (rtc) {
+      if (!rtc.client) {
+        console.log("Please Join Room First");
+        return;
+      }
+      if (!rtc.published) {
+        console.log("Your didn't publish");
+        return;
+      }
+      var oldState = rtc.published;
+      rtc.client.unpublish(rtc.localStream, function (err) {
+        rtc.published = oldState;
+        console.log("unpublish failed");
+        console.error(err);
+      })
+      console.log("unpublish")
+      rtc.published = false;
+    }
+
+    function leave (rtc) {
+      if (!rtc.client) {
+        console.log("Please Join First!");
+        return;
+      }
+      if (!rtc.joined) {
+        console.log("You are not in channel");
+        return;
+      }
+      /**
+       * Leaves an AgoraRTC Channel
+       * This method enables a user to leave a channel.
+       **/
+      rtc.client.leave(function () {
+        // stop stream
+        rtc.localStream.stop();
+        // close stream
+        rtc.localStream.close();
+        while (rtc.remoteStreams.length > 0) {
+          var stream = rtc.remoteStreams.shift();
+          var id = stream.getId();
+          stream.stop();
+          removeView(id);
+        }
+        rtc.localStream = null;
+        rtc.remoteStreams = [];
+        rtc.client = null;
+        console.log("client leaves channel success");
+        rtc.published = false;
+        rtc.joined = false;
+        console.log("leave success");
+      }, function (err) {
+        console.log("channel leave failed");
+        console.error(err);
+      })
+    }
+
+    $(function () {
+      getDevices(function (devices) {
+        devices.audios.forEach(function (audio) {
+          $('<option/>', {
+            value: audio.value,
+            text: audio.name,
+          }).appendTo("#microphoneId");
+        })
+        devices.videos.forEach(function (video) {
+          $('<option/>', {
+            value: video.value,
+            text: video.name,
+          }).appendTo("#cameraId");
+        })
+        resolutions.forEach(function (resolution) {
+          $('<option/>', {
+            value: resolution.value,
+            text: resolution.name
+          }).appendTo("#cameraResolution");
+        })
+        M.AutoInit();
+      })
+
+      var fields = ['appID', 'channel'];
+    })
+</script>

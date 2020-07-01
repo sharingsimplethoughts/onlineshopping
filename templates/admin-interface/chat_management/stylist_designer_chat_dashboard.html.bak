@@ -1,0 +1,1006 @@
+<!-- Latest compiled and minified CSS -->
+{% load staticfiles %}
+
+{% include 'admin-interface/header.html' %}
+
+
+<link rel="stylesheet" href="{% static 'css/chat.css' %}">
+
+
+<div class="chatManagementPage ExplorerListPage">
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Chat Support</span>
+        </h1>
+      </div>
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+          <div class="card">
+            <div class="card-body">
+              <div class="sidebar-chat">
+                
+                <span id="network-status"></span>
+                
+                <div class="row gutter-xs">
+
+                  <div class="chat-list col-12 col-sm-6 col-md-3 col-lg-3">
+                    <h6>User List</h6>
+                    <div class="list-group users-lists">
+                      {% for user in recent_user_list %}
+                      <a href="javascript:void(0)" id="{{user.opp_user.id}}" name="{{user.opp_user.name}}" data-image="{{user.opp_user.profilePic}}" data-role= "{{user.opp_user.role}}" class="list-group-item" onclick="showChatBox(this.id, this.name,this);">
+                        <figure class="thumb-xs mr-3">
+                          {% if user.opp_user.profilePic %}
+                          <img src="{{user.opp_user.profilePic}}" class="rounded-circle" alt="">
+                          {% else %}
+                          <img src="https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png" class="rounded-circle" alt="">
+
+                         {% endif %}
+
+                          {% if user.opp_user.isOnline %}
+                          <em class="user--online"></em>
+                          {% else %}
+                          <em class="user--offline"></em>
+                          {% endif %}
+
+                        </figure>
+                        <span>
+                          <span class="name">
+
+                            
+                            <span class="count">{{user.unread_count}}</span>
+                            
+
+                            {{user.opp_user.name}}</span>
+                          {% if user.lastmessage.type == "text" %}
+                           <span class="username">{{user.lastmessage.content}}</span>
+                          {% endif %}
+                          {% if user.lastmessage.type == "image" %} 
+                          <span class="username">image</span>
+
+                          {% endif %}
+                          {% if user.lastmessage.type == "audio" %} 
+                          <span class="username">audio</span>
+
+                          {% endif %}
+                          {% if user.lastmessage.type == "video" %}
+                          <span class="username">video</span>
+
+                          {% endif %}
+
+                          </span>
+                      </a>
+                      {% endfor %}
+
+                    </div>
+                    <!-- /.list-group -->
+                  </div>
+
+
+                  <!-- CHAT PANEL -->
+
+                  <div class="col-12 col-sm-12 col-md-7 col-lg-7" id="dialogbox" style="display:none">
+                    <h6>Messages</h6>
+                    <div class="card">
+                      <div class="card-header bg-massage text-center">
+                        <a href="javascript:void(0);" class="fa fa-phone text-muted pull-left" id="makeAudioCall"></a>
+<!--                          <span class="user-name heading-font-family fw-400"></span>-->
+
+                          <a href="javascript:void(0);" class="fa fa-video-camera text-muted pull-left" id="makeVideoCall"></a>
+                        <span class="user-name heading-font-family fw-400"></span>
+                        <button type="button" class="close" onclick="hideChatBox()">&times;</button>
+                      </div>
+                      <!-- /.card-header -->
+                      <div class="card-body">
+                        <div class="widget-chat-activity">
+                          <div class="scrollbar-enabled conversation">
+
+                          </div>
+                        </div>
+                      </div>
+
+                      <!-- /.card-body -->
+                     
+                        <div class="d-flex justify-content-end">
+                          <!-- <button type="button" class="btn-primary border-0 rounded-left"><i class="fa fa-plus-circle"></i></button> -->
+                          <button type="button" onclick="document.getElementById('file-input').click();" class="btn btn-primary border-0 rounded-left select-file"><i class="fa fa-paperclip"></i></button>
+                          <input id="file-input" type="file" name="name" style="display: none;"/>
+                          
+<!--                          <input class="form-control p-1 pr-2 pl-2 rounded-0" id="text-msg" placeholder="Type your message here"/>-->
+                          <textarea class="form-control p-2 rounded-0" id="text-msg" placeholder="Type your message here" rows="2" style="resize:none;"></textarea>
+                          <button type="button" class="btn btn-primary border-0 rounded-right send-message"><i class="fa fa-paper-plane"></i></button>
+                          
+                        </div>
+                        <span id="msg-err"></span>
+
+
+                    </div>
+                    <!-- /.card -->
+                  </div>
+                   <div class="col-md-4" id="call_details" style="display:none">
+                     <div class="sidebar-chat1">
+                        <div class="video-detail list-group">
+                            <div class="video-title">
+                                 <h6>Video Call Details</h6>
+                            </div>
+                            <div class="video-detail">
+                                 <div class="text-right cl-down">
+                                    <i class="fa fa-cloud-download pointer text-success fs-25" aria-hidden="true"></i>
+                                 </div>
+                                 <div class="video-image">
+                                     <img src="assets/img/user.jpg" width="40px" height="40px" class="rounded-circle" alt="">
+                                     <span><i class="fa fa-angle-double-right text-success fs-17 margin-left-15 margin-right-15" aria-hidden="true"></i></span>
+                                     <img src="assets/img/user.jpg" width="40px" height="40px" class="rounded-circle" alt="">
+                                 </div>
+                                 <div class="call-duration">
+                                     <div class="row">
+                                         <div class="col-md-4">
+                                           <div class="duration">
+                                                <h6>Call Duration</h6>
+                                                <p>3:09 min</p>
+                                           </div>
+                                         </div>
+                                         <div class="col-md-4">
+                                            <div class="duration">
+                                                 <h6 class="text-success">Started at</h6>
+                                                 <p>3:09 min</p>
+                                            </div>
+                                          </div>
+                                          <div class="col-md-4">
+                                              <div class="duration">
+                                                   <h6 class="text-danger">Ended at</h6>
+                                                   <p>3:09 min</p>
+                                              </div>
+                                            </div>
+                                      </div>
+                                 </div>
+                            </div>
+                            <div class="video-detail">
+                                <div class="text-right cl-down">
+                                   <i class="fa fa-cloud-download text-success fs-25" aria-hidden="true"></i>
+                                </div>
+                                <div class="video-image">
+                                    <img src="assets/img/user.jpg" width="40px" height="40px" class="rounded-circle" alt="">
+                                    <span><i class="fa fa-angle-double-left text-success fs-17 margin-left-15 margin-right-15" aria-hidden="true"></i></span>
+                                    <img src="assets/img/user.jpg" width="40px" height="40px" class="rounded-circle" alt="">
+                                </div>
+                                <div class="call-duration">
+                                    <div class="row">
+                                        <div class="col-md-4">
+                                          <div class="duration">
+                                               <h6>Call Duration</h6>
+                                               <p>3:09 min</p>
+                                          </div>
+                                        </div>
+                                        <div class="col-md-4">
+                                           <div class="duration">
+                                                <h6 class="text-success">Started at</h6>
+                                                <p>3:09 min</p>
+                                           </div>
+                                         </div>
+                                         <div class="col-md-4">
+                                             <div class="duration">
+                                                  <h6 class="text-danger">Ended at</h6>
+                                                  <p>3:09 min</p>
+                                             </div>
+                                           </div>
+                                     </div>
+                                </div>
+                           </div>
+                       </div>
+                     </div>
+                   </div>
+                  <!-- /.chat-panel -->
+                </div>
+                <!-- /.sidebar-chat -->
+              </div>
+            </div>
+          </div>
+          <div class="col s7">
+        <div class="video-grid" id="video">
+          <div class="video-view">
+            <div id="local_stream" class="video-placeholder">local stream</div>
+            <div id="local_video_info" class="video-profile hide"></div>
+            <div id="video_autoplay_local" class="autoplay-fallback hide"></div>
+          </div>
+        </div>
+      </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+
+{% include 'admin-interface/footer.html' %}
+
+  <script src="https://cdn.agora.io/sdk/release/AgoraRTCSDK-2.9.0.js"></script>
+<!--<script src="{% static 'js/avCustom.js' %}" type="text/javascript"></script>-->
+<script>
+
+var owner_id = '{{user.id}}';
+var owner_name = '{{user.name}}';
+var owner_profile_image = '{{user.profile_image}}';
+var owner_role = '{{user.role}}';
+
+
+
+
+// refrences
+
+var Message = firebase.database().ref('messages/');
+const User = firebase.database().ref('users/');
+var RecentMessage = firebase.database().ref('conversation/');
+
+
+window.recent_child = 'user_'+owner_id;
+
+
+// update online status
+console.log(owner_id)
+User.child('user_'+owner_id).update({isOnline:true})
+
+var node_id = ''
+
+
+$('#makeAudioCall').on('click', function(event){
+event.preventDefault()
+window.location.href = '/admin/users/chat/audio_call/' + node_id
+})
+
+$('#makeVideoCall').on('click', function(event){
+event.preventDefault()
+window.location.href = '/admin/users/chat/video_call/' + node_id
+})
+
+function hideChatBox(){
+  $("#dialogbox").css('display' ,'none')
+  $('#call_details').css('display', 'none')
+  window.opp_user_id=''
+  window.opp_user_role =''
+  window.child_id =''
+}
+
+function showChatBox(id,name,identifier){
+
+    //off previous listner
+    window.child_id=window.child_id
+    if (child_id){
+      Message.child(child_id).off("value")
+    }
+
+    window.opp_user_id = id;
+    window.opp_user_name = name;
+    window.opp_user_role = $(identifier).data('role');
+    window.opp_user_image = $(identifier).data('image');
+    
+    window.child_id = Math.min(owner_id, opp_user_id)+'_'+Math.max(owner_id, opp_user_id);
+    node_id = window.child_id
+    console.log(node_id)
+
+    $('.user-name').text(opp_user_name)
+
+
+
+    // get all messages 
+
+    Message.child(child_id).on("value", function(snapshot) {
+      $(".conversation").empty()
+      window.last_msg_userid='0'
+       window.last_msg_id='2'
+        snapshot.forEach(function(childNodes){
+         if(childNodes.val().type == "video")
+         {
+          var text = `<video  width="320" height="240" controls>
+            <source src="`+childNodes.val().content+`" type="video/mp4">
+            </video>`;
+         }
+         if(childNodes.val().type=="image")
+            {
+              var text='<a href="'+childNodes.val().content+'" target="_blank"><img src="'+childNodes.val().content+'">';
+            }
+
+         if(childNodes.val().type=="audio")
+            {
+              var text=  `<audio controls>
+                            <source src="`+childNodes.val().content +`" type="audio/ogg">
+                            
+                          </audio>`;
+            }
+          if(childNodes.val().type=="text")
+              {
+                var text=childNodes.val().content;
+              }
+          setTimeout(function () {
+            $(".card").scrollTop($('.bg-message').height());
+          }, 200);
+          // for seen unseen
+          if(childNodes.val().status=="0"){
+              status_class = null
+          }else{
+            status_class = 'viewed'
+          }
+              
+          if(childNodes.val().from==owner_id)
+          {  
+            
+            if (last_msg_userid==childNodes.val().from){
+              $('#'+last_msg_id).append(`<p class="`+ status_class +`">`+text +`<small>`+(convert(childNodes.val().timestamp))+`</small>`+`</p>`)
+            }else{
+             $(".conversation").append(`<div class="message send ">
+                        <figure class="thumb-xs">
+                          <a href="#">
+                            <img src="`+ owner_profile_image +`" class="rounded-circle" alt="">
+                          </a>
+                        </figure>
+                        <div class="message-body" id=`+childNodes.key+`>
+                          <p class="`+status_class+` break_line">`+text +`<small>`+(convert(childNodes.val().timestamp))+`</small>`+`</p>
+                        </div>
+                        </div>`); 
+            }         
+          }
+          else
+          {
+            if (last_msg_userid==childNodes.val().from){
+              $('#'+last_msg_id).append(`<p>`+text +`<small>`+(convert(childNodes.val().timestamp))+`</small>`+`</p>`)
+            }else{
+            $(".conversation").append(`<div class="message reply">
+                        <figure class="thumb-xs">
+                          <a href="#">
+                            <img src="`+opp_user_image +`" class="rounded-circle" alt="">
+                          </a>
+                        </figure>
+                        <div class="message-body" id=`+childNodes.key+`>
+                          <p class="break_line">`+text +`<small>`+(convert(childNodes.val().timestamp))+`</small>`+`</p>
+                        </div>
+                        </div>`);
+              }
+          }
+          if (window.last_msg_userid!=childNodes.val().from){
+            window.last_msg_id = childNodes.key 
+          }
+          window.last_msg_userid =childNodes.val().from  
+
+
+        }); // end loop 
+
+        // scroll to buttom
+        setTimeout(function(){
+            $(".scrollbar-enabled.conversation").stop().animate({ 
+            scrollTop: $(".scrollbar-enabled.conversation")[0].scrollHeight}, 0);
+          }, 10);      
+
+      // make unread count zero
+
+      RecentMessage.child('user_'+owner_id).child(child_id).update({unread_count:"0"})
+
+
+
+       },function(error) {
+            if (error) {
+              alert('error')
+            } }
+       
+       );
+
+       // show dialog box
+       $("#dialogbox").css('display' ,'block')
+       $('#call_details').css('display', 'block')
+    
+      
+      
+   }
+
+
+
+
+// send nessage
+$(document).keypress(function(event){
+  if(event.keyCode == 13){
+  $(".send-message").click();
+  }
+});
+$(".send-message").on('click',function(e){
+        e.preventDefault();
+
+        var msgtext=$("#text-msg").val();
+          $("#msg-err").empty();     
+          if(msgtext.trim()=="")
+           
+           {
+            $("#msg-err").text('Please enter text').css('color','red');
+            return false;
+
+           }
+          var unix = new Date().getTime()
+          var date = unix;
+
+          pushed_message = Message.child(child_id).push({
+              from:owner_id,
+              content: msgtext,
+              to:opp_user_id,
+              status:"0", 
+              timestamp:date,
+              type:"text",
+              key:"",
+              latitude:0,
+              longitude:0,
+              selected:false
+
+          }, function(error) {
+            if (error) {
+              alert('error')
+            } else {
+              // alert('success')
+              
+            // clear text
+
+            $("#text-msg").val("");
+
+            // update recent chat of owner
+            var update_owner_recent = RecentMessage.child('user_'+owner_id).child(child_id);
+
+            update_owner_recent.once('value', function(snapshot) {
+             if (snapshot.exists())
+             {
+              update_owner_recent.update({
+                last_message_location:date,
+                last_message_location:pushed_message.key,
+              }); 
+            }                
+             else
+             {
+              update_owner_recent.set({
+                
+                last_message_location:pushed_message.key,
+                unread_count:"0",
+                role:owner_role,
+                last_message_timestamp: date
+              });
+             }
+               
+          });
+
+          // update recent chat of opp_user
+
+          var update_opp_recent = RecentMessage.child('user_'+ opp_user_id).child(child_id
+            );
+
+            update_opp_recent.once('value', function(snapshot) {
+             if (snapshot.exists())
+             {
+              unread_count  = Number.parseInt(snapshot.val().unread_count, 10) + 1
+              
+              update_opp_recent.update({
+                last_message_location:date,
+                last_message_location:pushed_message.key,
+                unread_count : unread_count.toString()
+
+              });
+            }                
+             else
+             {
+              update_opp_recent.set({
+                last_message_location:pushed_message.key,
+                unread_count:"0",
+                role:opp_user_role.toString(),
+                last_message_timestamp: date
+              });
+             }
+               
+          });
+
+            }
+          });
+
+    })
+
+
+// listner for userdetail change 
+User.on('child_changed', function(data) {
+      console.log(data.val().isOnline)
+      if(data.val().isOnline){
+        $(`#`+data.val().id +`.list-group-item em`).removeClass('user--offline').addClass('user--online')
+
+       }else{
+        $(`#`+data.val().id +`.list-group-item em`).removeClass('user--online').addClass('user--offline')
+
+      } 
+});
+
+// add child update listner 
+RecentMessage.child(recent_child).on('child_changed', function(data) {
+  console.log(data.val())
+
+
+  setTimeout(function(){
+      Message.child(data.key).child(data.val().last_message_location).once('value',function(msgsnapshot){
+    
+      console.log(msgsnapshot.val())
+      let last_msg_type = msgsnapshot.val().type;
+      let lastmessage = msgsnapshot.val().content
+
+      if (last_msg_type=="video"){
+        lastmessage = "video"
+      }
+      if (last_msg_type=="image"){
+        lastmessage = "image"
+      }
+      if (last_msg_type=="audio"){
+        lastmessage = "audio"
+      }
+
+      if (msgsnapshot.val().to==owner_id){
+        current_msg_user_id = msgsnapshot.val().from
+      }else{
+        current_msg_user_id = msgsnapshot.val().to
+      }
+      
+      $(`#`+current_msg_user_id +`.list-group-item .username`).text(lastmessage)
+      $(`#`+current_msg_user_id +`.list-group-item .username`).text(lastmessage)
+
+      if (current_msg_user_id !== window.opp_user_id){
+          // update unread count mesage
+          if (data.val().unread_count>0){
+            $(`#`+current_msg_user_id +`.list-group-item .unread`).text(data.val().unread_count)
+            $(`#`+current_msg_user_id+`.list-group-item .unread`).addClass('count')
+          }else{
+
+            $(`#`+current_msg_user_id +`.list-group-item .unread`).text('')
+            $(`#`+current_msg_user_id +`.list-group-item .unread`).removeClass('count')
+
+          }
+
+      }else{
+        $(`#`+current_msg_user_id +`.list-group-item .unread`).text('')
+        $(`#`+current_msg_user_id +`.list-group-item .unread`).removeClass('count')
+      }
+
+    })
+    },300)
+
+
+})
+
+
+// add child add listner 
+
+RecentMessage.child(recent_child).on('child_added', function(data) {
+    console.log(data.val(), '123')
+
+    var childKey = data.key;
+    var unread_count = data.val().unread_count
+    if(childKey.split('_')[0]==owner_id){
+      var last_opp_id = childKey.split('_')[1];
+    }else{
+      var last_opp_id = childKey.split('_')[0];
+    }
+
+
+    User.child('user_'+last_opp_id).once("value", function(snapshot) {
+        //get message
+        Message.child(childKey).child(data.val().last_message_location).once('value',function(msgsnapshot){
+        
+        let lastmessage  = msgsnapshot.val().content;
+        let last_msg_type = msgsnapshot.val().type;
+
+        name = snapshot.val().name;
+        image = snapshot.val().profilePic;
+        role = snapshot.val().role;
+
+        if (snapshot.val().isOnline){
+          onlinestatusclass = 'user--online'
+        }else{
+          onlinestatusclass = 'user--offline'
+        }
+
+        if (image==""){
+            var image = "https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png"
+        }
+          
+          
+          if (last_msg_type=="image"){
+            lastmessage = "image"
+          }
+          if (last_msg_type=="audio"){
+            lastmessage = "audio"
+          }
+
+          if (data.val().unread_count>0){
+            unread_count= data.val().unread_count
+            count_class ='count'
+          }else{
+            unread_count =''
+            count_class =''
+          }
+
+          html = `<a href="javascript:void(0)" data-image ="`+image +`" data-role = "`+ role +`" id="`+ last_opp_id+`" name="`+name +`" class="list-group-item" onclick="showChatBox(this.id,this.name, this);">
+                      <figure class="thumb-xs mr-3">
+                        
+                        <img src="`+ image +`" class="rounded-circle" alt="">
+                        <em class="`+ onlinestatusclass+`"></em>
+                      </figure>
+                      <span>
+                        <span class="name">
+                          <span class="unread `+count_class+`">`+unread_count+`</span>
+                        
+                        `+ name+`</span> 
+                        
+                        <span class="username">`+lastmessage+`</span>
+                      </span>
+                    </a>`
+          
+          $('.users-lists').prepend(html)
+
+      })
+                     
+  })
+
+})
+
+
+
+
+// on add new message in Message child update recent message
+
+
+// RecentMessage.child(recent_child).once('value', function(snapshot) {
+//     // all records after the last continue to invoke this function
+    
+
+//     // if (initialDataLoaded1){
+        
+//       $('.users-lists').empty()
+//         snapshot.forEach(function(childSnapshot) {
+//             // get last message 
+            
+
+//             var childKey = childSnapshot.key;
+//             var unread_count = childSnapshot.val().unread_count
+//             if(childKey.split('_')[0]==owner_id){
+//               var last_opp_id = childKey.split('_')[1];
+//             }else{
+//               var last_opp_id = childKey.split('_')[0];
+//             }
+
+//             //get user details
+             
+//               User.child('user_'+last_opp_id).once("value", function(snapshot) {
+//                       //get message
+//                       Message.child(childSnapshot.key).child(childSnapshot.val().last_message_location).once('value',function(msgsnapshot){
+                     
+//                       let lastmessage  = msgsnapshot.val().content;
+//                       let last_msg_type = msgsnapshot.val().type;
+
+//                       name = snapshot.val().name;
+//                       image = snapshot.val().profilePic;
+//                       role = snapshot.val().role;
+
+//                       if (snapshot.val().isOnline){
+//                         onlinestatusclass = 'user--online'
+//                       }else{
+//                         onlinestatusclass = 'user--offline'
+//                       }
+
+//                       if (image==""){
+//                           var image = "https://cdn.pixabay.com/photo/2017/05/13/23/05/img-src-x-2310895_960_720.png"
+//                       }
+                        
+                       
+//                         if (last_msg_type=="image"){
+//                           lastmessage = "image"
+//                         }
+//                         if (last_msg_type=="audio"){
+//                           lastmessage = "audio"
+//                         }
+//                         // html = '<h4><a href="/admin/users/chat?opp_user='+childData.id +'">chat with user'+childData.name +'</a></h4>'+
+//                         //         '<h6>'+childData.lastmessage+'</h6>'
+
+//                         html = `<a href="javascript:void(0)" data-image ="`+image +`" data-role = "`+ role +`" id="`+ last_opp_id+`" name="`+name +`" class="list-group-item" onclick="showChatBox(this.id,this.name, this);">
+//                                     <figure class="thumb-xs mr-3">
+                                      
+//                                       <img src="`+ image +`" class="rounded-circle" alt="">
+//                                       <em class="`+ onlinestatusclass+`"></em>
+//                                     </figure>
+//                                     <span>
+//                                       <span class="name">
+                                      
+                                      
+//                                       `+ name+`</span> 
+//                                       <span class="count">{{user.unread_count}}</span>
+//                                       <span class="username">`+lastmessage+`</span>
+//                                     </span>
+//                                   </a>`
+
+                       
+//                         $('.users-lists').append(html)
+
+//                     })
+                      
+
+
+//               }, function (errorObject) {
+//                 console.log("The read failed: " + errorObject.code);
+//               });
+//         console.log('user end')
+
+//         });
+
+// //     }
+
+// //  window.initialDataLoaded1 = true;
+
+
+// });
+
+
+
+
+function convert(unixtimestamp){
+    
+    var d = new Date(parseInt(unixtimestamp)),  // Convert the passed timestamp to milliseconds
+      yyyy = d.getFullYear(),
+      mm = ('0' + (d.getMonth() + 1)).slice(-2),  // Months are zero based. Add leading 0.
+      dd = ('0' + d.getDate()).slice(-2),     // Add leading 0.
+      hh = d.getHours(),
+      h = hh,
+      min = ('0' + d.getMinutes()).slice(-2),   // Add leading 0.
+      ampm = 'AM',
+      time;
+        
+    if (hh > 12) {
+      h = hh - 12;
+      ampm = 'PM';
+    } else if (hh === 12) {
+      h = 12;
+      ampm = 'PM';
+    } else if (hh == 0) {
+      h = 12;
+    }
+    
+    // ie: 2013-02-18, 8:35 AM  
+    time =  h + ':' + min + ' ' + ampm;
+      
+    return time;
+
+}
+
+
+
+
+</script>
+
+
+
+<script>
+
+  // upload media file
+  
+  $('#file-input').change(function() { 
+      // upload image
+      var fd = new FormData();
+      var files = $('#file-input')[0].files[0];
+      fd.append('image',files);
+       
+  
+      $.ajax(
+              {
+          type:"POST",
+          url: "/api/v1/chat/upload_media",
+          data: fd,
+          contentType: false,
+          processData: false,
+          headers: { "X-CSRFToken":"{{request.COOKIES.csrftoken}}" },
+        success: function( data )
+          {
+              
+            //send message and update last message
+  
+            var mediaurl= data.data.image_url
+            var type = mediaurl.split('.')[mediaurl.split('.').length-1]
+            if (type=='mp3'){
+              var type = 'audio';
+            }else if(type == 'mp4' || type == 'webm' || type == 'mkv'){
+              var type = 'video';
+            }
+            else if(type == 'jpg' || type == 'jpeg'){
+            var type = 'image'
+            }
+            else{
+              $("#msg-err").text('File type not supported').css('color','red');
+            return false;
+
+            }
+
+            
+            var unix = new Date().getTime();
+            var date = unix;
+            
+            pushed_message = Message.child(child_id).push({
+                
+                from:owner_id,
+                content: mediaurl,
+                to:opp_user_id,
+                status:"0", 
+                timestamp:date,
+                type:type,
+                key:"",
+                latitude:0,
+                longitude:0,
+                selected:false
+  
+            }, function(error) {
+              if (error) {
+                alert('error')
+              } else {
+                // alert('success')
+                
+              // clear text
+  
+              $("#text-msg").val("");
+  
+              
+              // update recent chat of owner
+              var update_owner_recent = RecentMessage.child('user_'+owner_id).child(child_id
+              );
+  
+              update_owner_recent.once('value', function(snapshot) {
+               if (snapshot.exists())
+               {
+                update_owner_recent.update({
+                  last_message_location:date,
+                  last_message_location:pushed_message.key,
+                });
+              }                
+               else
+               {
+                update_owner_recent.set({
+                  last_message_location:pushed_message.key,
+                  unread_count:"0",
+                  role:owner_role,
+                  last_message_timestamp: date
+                });
+               }
+                 
+            });
+  
+            // update recent chat of opp_user
+  
+            var update_opp_recent = RecentMessage.child('user_'+ opp_user_id).child('user_'+owner_id
+              );
+  
+              update_opp_recent.once('value', function(snapshot) {
+               if (snapshot.exists())
+               
+               {
+                unread_count  = Number.parseInt(snapshot.val().unread_count, 10) + 1
+
+                update_opp_recent.update({
+                  last_message_location:date,
+                  last_message_location:pushed_message.key,
+                  unread_count : unread_count.toString()
+
+                });
+              }                
+               else
+               {
+                update_opp_recent.set({
+                  last_message_location:pushed_message.key,
+                  unread_count:"0",
+                  role:opp_user_role.toString(),
+                  last_message_timestamp: date
+                });
+               }
+                 
+            });
+  
+              }
+            });
+  
+            
+          },
+        statusCode: {
+          404: function(response) {
+              alert('404')
+          },
+          500: function(response) {
+              alert('Something went wrong')
+          },
+          400: function(response) {
+            
+              alert(response.responseJSON.message)
+          },
+      }
+       })
+  
+  });
+  
+
+  </script>
+
+
+
+
+
+<script>
+function myFunction() {
+  var input, filter, ul, li, a, i, txtValue;
+  input = document.getElementById("myInput");
+  filter = input.value.toUpperCase();
+  ul = document.getElementById("myUL");
+  li = ul.getElementsByTagName("li");
+  for (i = 0; i < li.length; i++) {
+    a = li[i].getElementsByTagName("a")[0];
+    ul.classList.add("active");
+    txtValue = a.textContent || a.innerText;
+    if (txtValue.toUpperCase().indexOf(filter) > -1) {
+      li[i].style.display = "";
+    } else {
+      li[i].style.display = "none";
+    }
+  }
+}
+</script>
+
+<script type="text/javascript">
+  $(document).ready(function(){
+
+    $('.scrollbar-enabled .message:last-child').animation({
+
+    },100);
+
+    $('html').click(function(){
+      $('#myUL').removeClass('active');
+    });
+    $('#myInput').click(function(e){
+      e.preventdefault();
+    });
+    $('#myUL li a').click(function(){
+      var aaa = this.innerHTML();
+      $('#myInput').val(aaa);
+      $('#myUL').removeClass('active');
+    });
+
+  });
+</script>
+
+
+<script src="https://cdn.firebase.com/js/client/2.4.0/firebase.js"></script>
+<script>
+  window.check_first =true;
+  var firebaseRef = new Firebase('https://chat-40a30.firebaseio.com/');
+  firebaseRef.child('.info/connected').on('value', function(connectedSnap) {
+    if (check_first==false){
+      if (connectedSnap.val() === true) {
+      
+      $('#network-status').text('Now you are online..');
+      $('#network-status').css('color','green');
+      $(".select-file").prop('disabled', false);
+      $(".send-message").prop('disabled', false);
+
+
+      setTimeout(function(){
+        $('#network-status').text('')
+      },4000)
+    } else {
+      
+      $('#network-status').text('You are offline please check your connection...');
+      $('#network-status').css('color','red');
+      $(".select-file").prop('disabled', true);
+      $(".send-message").prop('disabled', true);
+      
+    }
+    }
+    window.check_first=false;
+  });
+  
+
+  </script>
+
+
+<script type="text/javascript">
+  window.onbeforeunload = function(){
+    User.child('user_'+owner_id).update({isOnline:false})
+  }
+</script>

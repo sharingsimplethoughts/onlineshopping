@@ -1,0 +1,312 @@
+{% load staticfiles %}
+
+{% include 'admin-interface/header.html' %}
+
+<style>
+  .table>tbody>tr>td, .table>tbody>tr>th, .table>tfoot>tr>td, .table>tfoot>tr>th, .table>thead>tr>td, .table>thead>tr>th{
+    padding: 5px;
+  }
+  tbody.pro-list tr td .widget {
+    margin-bottom: 0;
+    padding-bottom: 0;
+  }
+
+  tbody.pro-list tr td .card-body .btn-primary.btn-sm {
+    padding: 0;
+  }
+  tbody.pro-list tr td .widget .btn {
+    display: block;
+    float: left;
+    height: 20px;
+    line-height: 20px;
+    margin: 5px !important;
+    padding: 0;
+    width: 20px;
+  }
+  .title-bar{
+    display: flow-root;
+  }
+  .title-bar h1.title-bar-title{
+    float: left;
+  }
+  .title-bar a.btn{
+    float: right;
+  }
+  .tab-content{
+    padding: 0px;
+  }
+  .btn-label{
+    left: -14px;
+  }
+  .dataTables_wrapper.form-inline.dt-bootstrap.no-footer{
+    background: none;
+    padding: 15px;
+  }
+  .d-none{
+    display: none;
+  }
+  .wpx-40{
+    width: 40px;
+  }
+
+    .dafault21{
+    width: 33%;
+    height: 20px !important;
+    margin-right: 13px;
+    display: inline-block;
+  }
+</style>
+<div class="paymentPage ExplorerListPage">
+  <div class="layout-content">
+    <div class="layout-content-body">
+      <div class="title-bar">
+        <h1 class="title-bar-title">
+          <span class="d-ib">Payment Management</span>
+        </h1>
+      </div>
+      <div class="row gutter-xs">
+        <div class="col-xs-12">
+
+          <div class="panel m-b-lg">
+            <ul class="nav nav-tabs nav-justified">
+              <li><a href="/admin/users/customer_transaction_list">Customer Transaction</a></li>
+              <li class="active"><a href="#apparel-tab" data-toggle="tab">Member Transaction</a></li>
+            </ul>
+            <div class="tab-content">
+              <div class="tab-pane fade active in" id="apparel-tab">
+
+                <div class="card">
+                  <div class="card-header" style="display: none">
+                      <div class="card-actions">
+                          <button type="button" class="card-action card-reload" title="Reload"></button>
+                      </div>
+                    </div>
+                  <div class="card-body">
+                    <div class="row" style="position: relative; margin-bottom: -12px; margin-left: 0;">
+
+                      <div class="col-md-8 col-sm-8 col-xs-12" style="position: absolute; top:-0.5%;  z-index: 999;">
+
+                        <form id="filter_date" style="width: 50%; float: left;">
+                          <div class="dafault21">
+                            <div class="form-group">
+                              <div class="input-group">
+                                <input autocomplete="off" type="text" class="form-control datepicker" value="{{startdate | default_if_none:""}}" id="startdate" style="padding: 0 10px 0 25px; border-radius: 0;" name="startdate" placeholder="From">
+                                <span class="icon icon-calendar input-icon" style="width: 25px;"></span>
+                                <div class="input-group-append">
+                                  <div class="input-group-text ml-2">
+                                  </div>
+                                </div>
+                              </div>
+                            </div>
+                          </div>
+                          <div class="dafault21 tb-to">
+                            <div class="form-group">
+                                <div class="input-group">
+                                    <input type="text" autocomplete="off" class="form-control datepicker" value="{{enddate | default_if_none:""}}" id="enddate" style="padding: 0 10px 0 25px; border-radius: 0;" name="enddate" placeholder="To">
+                                    <span class="icon icon-calendar input-icon" style="width: 25px;"></span>
+                                    <div class="input-group-append">
+                                        <div class="input-group-text ml-2">
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                          </div>
+
+                          <button style="width:40px;height: 34px ;margin-top:0px" class="btn btn-default btn-sm btn-labeled" id="filter-payment" type="submit" data-toggle="modal" disabled="disabled">
+                            <span class="add-btn">
+                            <i class="fa fa-search"></i>
+                            </span>
+                          </button>
+
+                        </form>
+
+                                <form id="filter_form" method="POST">{% csrf_token %}
+                                   <div class="row">
+                                    
+                                      <div class="col-md-3 col-sm-6 col-xs-12" style="float: right;">
+                                        <select onchange="this.form.submit()" name="sort_id" id ="sort_payment" class="form-control" style="margin-top: 0px;">
+                                          <option value=1>All</option>
+                                          <option value=4>Stylist</option>
+                                          <option value=3>Designer</option>
+                                          <option value =5>Manufacturer</option>
+                                          
+                                        </select>
+                                   </div>
+                                 </div>  
+                                </form>
+                              </div>
+
+                    </div>
+                    
+                    <table id="demo-datatables-5" class="table table-striped table-bordered table-nowrap dataTable checkbox-table" cellspacing="0" width="100%">
+                      <thead>
+
+
+                       
+                        <tr>
+                          <th class="clicksr">S.No</th>
+                          <th>Transac Id</th>
+                          <th>User Name</th>
+                          <th>Role</th>
+                          <th>Product Details</th>
+                          <th>Placed On</th>
+                          <th>Product Status</th>
+                          <th>Order Id</th>
+                          <th>Amount</th>
+                          <th>% Received</th>     
+<!--                           <th>Trasactions Status</th>
+                          <th>Transaction date</th> -->
+                          <!-- <th>Action</th> -->
+                        </tr>
+                      </thead>
+                      <tbody class="pro-list">
+
+                {% for order in orders %} 
+                        <tr>
+                          <td>{{forloop.counter}}</td>
+                          <!-- <td>#{{order.payment.payment_id}}</td> -->
+                           <td>{{order.id}}</td>
+                          <td>{{order.cart.product.user.first_name}} {{order.cart.product.user.last_name}}</td>
+
+                       {% if order.cart.product.user_role == '3' %}
+                        <td>Designer</td>
+
+                        {% elif order.cart.product.user_role == '2' %}
+                        <td>Super-admin</td>
+
+                       {% elif order.cart.product.user_role == '4' %}
+
+                        <td>Stylist</td>
+
+                       {% elif order.cart.product.user_role == '5' %} 
+                        <td>manufacturer</td>
+
+                        {% else %}
+
+                         <td></td>
+
+                         {% endif %}
+
+                          <td style="color: #34a8eb"><a href="/admin/users/view_product/{{order.cart.product.id}}">{{order.cart.product.name}}</a></td>
+                          <td>{{order.created | date:" d F Y, g:i a" }}</td>
+                          <td style="color: green">{{order.get_order_status_display}}</td>
+                          <td ><a style="color:#eb4f34;text-decoration: underline;" href="/admin/users/order_detail/{{order.id}}">#{{order.order.id}}</a></td>
+                          <td>{{order.cart.selected_colour.special_price}}</td>
+                          <td><span >10%</span></td>
+
+<!--                           {% if order.payment %}
+
+                        <td style="color: green">Paid</td>
+
+                          {% else %}
+
+                          <td>
+                            
+                            <button class="btn btn-default" type="button" data-toggle="modal"  id ="{{ user.id }}" data-target="#cancelOrder"  >
+                              Pay
+                            </button>
+                          </td>
+
+                          {% endif %}
+
+                        <td>{{order.payment.created | date:" d F Y, g:i a" }}</td>
+ -->
+
+                        <!--   <td>
+                            <button class="btn btn-info" type="button" onclick="">
+                              <i class="icon icon-download icon-lg icon-fw"></i>
+                            </button>
+
+                            <button class="btn btn-default" type="button" onclick="PrintReceipt()">
+                              <i class="icon icon-print icon-lg icon-fw"></i>
+                            </button>
+                          </td> -->
+                        </tr>
+
+                {% endfor %}
+
+                      </tbody>
+                    </table>
+                  </div>
+                </div>
+
+              </div>
+
+            </div>
+          </div>
+
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+{% include 'admin-interface/footer.html' %}
+
+                     <script>
+jQuery(function(){
+   jQuery('.card-reload').click();
+});
+</script>
+
+
+
+<script type="text/javascript">
+  $(document).ready(function(){
+    
+    $("#startdate").datepicker({
+      opens: 'bottom',
+      autoclose: true,
+      startDate:'01/01/2019' 
+    }).on('changeDate', function(selected){
+      var startDate = new Date(selected.date.valueOf());
+      $('#enddate').datepicker('setStartDate', startDate);
+    });  
+
+    $("#enddate").datepicker({
+      opens: 'bottom',
+      autoclose: true,
+      startDate:'01/01/2019' 
+    }).on('changeDate', function(selected){
+        var startDate = new Date(selected.date.valueOf());
+        $('#startdate').datepicker('setEndDate', startDate);
+    });
+
+  });
+
+  $(".clicksr").click();
+
+
+
+
+
+$('#sort_payment').val("{{sort_id}}");
+
+ $('#filter-payment').prop('disabled', false);
+
+
+var startDate = "{{startdate}}"
+var endDate = "{{enddate}}"
+console.log(startDate,endDate )
+
+if (startDate =='None' || endDate == 'None'){
+  $('#filter-payment').prop('disabled', true);
+}
+
+$(document).ready(function(){
+
+  $('#filter_date').change(function() {
+
+    if ($('#startdate').val() != '' && $('#enddate').val() != '' ){
+      
+      $('#filter-payment').prop('disabled', false);
+
+            }
+      else{
+
+        $('#filter-payment').prop('disabled', true);
+      }
+
+})
+})
+
+</script>
